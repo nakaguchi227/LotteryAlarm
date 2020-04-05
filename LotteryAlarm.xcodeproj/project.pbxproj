@@ -11,6 +11,7 @@
 		E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3187E3F24361C3B006FA92D /* SelectedTime.swift */; };
 		E384984A2437852000CC9358 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E38498492437851F00CC9358 /* GoogleService-Info.plist */; };
 		E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384984D24378E5B00CC9358 /* TestViewController.swift */; };
+		E38498532439F1B500CC9358 /* ComeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38498522439F1B500CC9358 /* ComeViewController.swift */; };
 		E393699B242A3FDA008EC91F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E393699A242A3FDA008EC91F /* AppDelegate.swift */; };
 		E393699D242A3FDA008EC91F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E393699C242A3FDA008EC91F /* SceneDelegate.swift */; };
 		E393699F242A3FDA008EC91F /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E393699E242A3FDA008EC91F /* FirstViewController.swift */; };
@@ -30,6 +31,7 @@
 		E38498492437851F00CC9358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E384984D24378E5B00CC9358 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		E384984F2438D49100CC9358 /* LotteryAlarm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LotteryAlarm.entitlements; sourceTree = "<group>"; };
+		E38498522439F1B500CC9358 /* ComeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComeViewController.swift; sourceTree = "<group>"; };
 		E3936997242A3FDA008EC91F /* LotteryAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LotteryAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E393699A242A3FDA008EC91F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E393699C242A3FDA008EC91F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				E38498492437851F00CC9358 /* GoogleService-Info.plist */,
 				E39369AA242A3FDE008EC91F /* Info.plist */,
 				E384984D24378E5B00CC9358 /* TestViewController.swift */,
+				E38498522439F1B500CC9358 /* ComeViewController.swift */,
 			);
 			path = LotteryAlarm;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				E393699B242A3FDA008EC91F /* AppDelegate.swift in Sources */,
 				E393699D242A3FDA008EC91F /* SceneDelegate.swift in Sources */,
 				E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */,
+				E38498532439F1B500CC9358 /* ComeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
