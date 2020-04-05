@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		CF79A5FFB1653DF28D3E2043 /* Pods_LotteryAlarm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D1D4D07B66A7E0FA59BB8F3 /* Pods_LotteryAlarm.framework */; };
+		E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3187E3F24361C3B006FA92D /* SelectedTime.swift */; };
+		E384984A2437852000CC9358 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E38498492437851F00CC9358 /* GoogleService-Info.plist */; };
+		E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384984D24378E5B00CC9358 /* TestViewController.swift */; };
 		E393699B242A3FDA008EC91F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E393699A242A3FDA008EC91F /* AppDelegate.swift */; };
 		E393699D242A3FDA008EC91F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E393699C242A3FDA008EC91F /* SceneDelegate.swift */; };
 		E393699F242A3FDA008EC91F /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E393699E242A3FDA008EC91F /* FirstViewController.swift */; };
@@ -23,6 +26,10 @@
 		5D1D4D07B66A7E0FA59BB8F3 /* Pods_LotteryAlarm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LotteryAlarm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D17A2196BF9114FAD22022E7 /* Pods-LotteryAlarm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotteryAlarm.release.xcconfig"; path = "Target Support Files/Pods-LotteryAlarm/Pods-LotteryAlarm.release.xcconfig"; sourceTree = "<group>"; };
 		E033755086297448E3D99FB2 /* Pods-LotteryAlarm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotteryAlarm.debug.xcconfig"; path = "Target Support Files/Pods-LotteryAlarm/Pods-LotteryAlarm.debug.xcconfig"; sourceTree = "<group>"; };
+		E3187E3F24361C3B006FA92D /* SelectedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTime.swift; sourceTree = "<group>"; };
+		E38498492437851F00CC9358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E384984D24378E5B00CC9358 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		E384984F2438D49100CC9358 /* LotteryAlarm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LotteryAlarm.entitlements; sourceTree = "<group>"; };
 		E3936997242A3FDA008EC91F /* LotteryAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LotteryAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E393699A242A3FDA008EC91F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E393699C242A3FDA008EC91F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +93,7 @@
 		E3936999242A3FDA008EC91F /* LotteryAlarm */ = {
 			isa = PBXGroup;
 			children = (
+				E384984F2438D49100CC9358 /* LotteryAlarm.entitlements */,
 				E39369B3242E6E3D008EC91F /* class */,
 				E39369B0242A42C1008EC91F /* table */,
 				E393699A242A3FDA008EC91F /* AppDelegate.swift */,
@@ -95,7 +103,9 @@
 				E39369A2242A3FDA008EC91F /* Main.storyboard */,
 				E39369A5242A3FDE008EC91F /* Assets.xcassets */,
 				E39369A7242A3FDE008EC91F /* LaunchScreen.storyboard */,
+				E38498492437851F00CC9358 /* GoogleService-Info.plist */,
 				E39369AA242A3FDE008EC91F /* Info.plist */,
+				E384984D24378E5B00CC9358 /* TestViewController.swift */,
 			);
 			path = LotteryAlarm;
 			sourceTree = "<group>";
@@ -104,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				E39369B1242A42DE008EC91F /* Alarm.swift */,
+				E3187E3F24361C3B006FA92D /* SelectedTime.swift */,
 			);
 			path = table;
 			sourceTree = "<group>";
@@ -177,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E39369A9242A3FDE008EC91F /* LaunchScreen.storyboard in Resources */,
+				E384984A2437852000CC9358 /* GoogleService-Info.plist in Resources */,
 				E39369A6242A3FDE008EC91F /* Assets.xcassets in Resources */,
 				E39369A4242A3FDA008EC91F /* Main.storyboard in Resources */,
 			);
@@ -233,10 +245,12 @@
 			files = (
 				E39369A1242A3FDA008EC91F /* SecondViewController.swift in Sources */,
 				E393699F242A3FDA008EC91F /* FirstViewController.swift in Sources */,
+				E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */,
 				E39369B5242E6E92008EC91F /* time.swift in Sources */,
 				E39369B2242A42DE008EC91F /* Alarm.swift in Sources */,
 				E393699B242A3FDA008EC91F /* AppDelegate.swift in Sources */,
 				E393699D242A3FDA008EC91F /* SceneDelegate.swift in Sources */,
+				E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +395,7 @@
 			baseConfigurationReference = E033755086297448E3D99FB2 /* Pods-LotteryAlarm.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LotteryAlarm/LotteryAlarm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GALBZY6HUB;
 				INFOPLIST_FILE = LotteryAlarm/Info.plist;
@@ -400,6 +415,7 @@
 			baseConfigurationReference = D17A2196BF9114FAD22022E7 /* Pods-LotteryAlarm.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LotteryAlarm/LotteryAlarm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GALBZY6HUB;
 				INFOPLIST_FILE = LotteryAlarm/Info.plist;

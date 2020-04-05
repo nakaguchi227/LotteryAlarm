@@ -11,10 +11,6 @@ import RealmSwift
 
 class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    
-    
-    
-    
     // UIImage のインスタンスを設定
     let check = UIImage(named:"check")!
     let noCheck = UIImage(named:"nocheck")!
@@ -30,7 +26,6 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     var labelWidth: CGFloat = 24
     var labelHeight: CGFloat = 24
     var labelWidth2: CGFloat = 40
-    
     
     //stasuを定義
     let on:Int = 1
@@ -82,6 +77,8 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     var selectedHour:Int?
     var selectedMin:Int?
     
+    
+    
 
        //コンポーネントに含まれるデータの個数を返すメソッド
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -98,6 +95,8 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             return 50
         }
     }
+    
+    
        
 
        //データを返すメソッド
@@ -119,6 +118,26 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         selectedHour = Int(h!)!
         selectedMin = Int(m!)!
         
+        //pickerで合わせた時間を保存しておく
+        let realm = try! Realm()
+        let selectedTimeResult = realm.objects(SelectedTime.self).first
+        if let selected = selectedTimeResult{
+            try! realm.write {
+                selected.hour = selectedHour!
+                selected.minutes = selectedMin!
+            }
+        }else{
+            let selected = SelectedTime()
+            selected.hour = selectedHour!
+            selected.minutes = selectedMin!
+
+            try! realm.write {
+                realm.add(selected)
+            }
+        }
+        
+        
+        
     }
     
     @IBOutlet weak var countTime: UILabel!
@@ -130,13 +149,13 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     var time: [Int] = [1,10,10]
     var countDown:Timer?
     
-    
+
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Realm.Configuration.defaultConfiguration.fileURL!)
+//        print(Realm.Configuration.defaultConfiguration.fileURL!)
         
         timePickerView.frame = CGRect(x: 0, y: myBoundSize.height * 0.1, width: myBoundSize.width, height: myBoundSize.height * 0.25)
         
@@ -146,6 +165,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let realm = try! Realm()
         
         let alarmResult = realm.objects(Alarm.self).first
+        var setTime:Date?
         
         if let status = alarmResult{
             allStatus = status.all
@@ -157,6 +177,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             friStatus = status.fri
             satStatus = status.sat
             sunStatus = status.sun
+            setTime = status.alarm
         }else{
             allStatus = off
             onlyStatus = off
@@ -167,6 +188,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             friStatus = off
             satStatus = off
             sunStatus = off
+            setTime = nil
             
         }
         
@@ -308,56 +330,123 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         onlyLabel.textColor = UIColor.gray
         self.view.addSubview(onlyLabel)
         
-        //labelの表示を初期化
-       
         
         
-       
-//        let cal = Calendar(identifier: .gregorian)
-//        // 現在日時を dt に代入
-//         let aaa = alarmResult!.alarm
-//        // 8時間後を求める（60秒 × 60分 × 8時間)
-//        let bbb = Date()
-//
-//        // dt2 - dt1 を計算
-//        let diff1 = cal.dateComponents([.hour], from: bbb, to: aaa)
-//        let diff11 = cal.dateComponents([.minute], from: bbb, to: aaa)
-//        let diff111 = cal.dateComponents([.second], from: bbb, to: aaa)
-//        // dt1 - dt2 を計算
-////        let diff2 = cal.dateComponents([.hour], from: bbb, to: aaa)
-//
-//        print(aaa)
-//        print(bbb)
-//        print("差は \(diff1.hour!) 時間")
-//        print("差は \(diff11.minute!) 分")
-//        print("差は \(diff111.second!) 秒")
-//
-////        print("差は \(diff2.hour!) 時間")秒
-//
-//        // 書式を設定する
-//        let formatter = DateComponentsFormatter()
-//        // 表示単位を指定
-//        formatter.unitsStyle = .positional
-//        // 表示する時間単位を指定
-//        formatter.allowedUnits = [.hour, .minute, .second]
-//
-//        // 設定した書式にしたがって表示
-//        print(formatter.string(from: diff111)!)
-//
+        if setTime == nil{
+            alarmHour = 0
+            alarmMin = 0
+            alarmSec = 0
+        }else{
+            let cal = Calendar(identifier: .gregorian)
+            let nowTime = Date()
+
+            // setTime - nowTime を計算
+            let diff = cal.dateComponents([.second], from: nowTime, to: setTime!)
+            
+            // 書式を設定する
+            let formatter = DateComponentsFormatter()
+            // 表示単位を指定
+            formatter.unitsStyle = .positional
+            // 表示する時間単位を指定
+            formatter.allowedUnits = [.hour, .minute, .second]
+            // 設定した書式にしたがって表示
+            let diffTime = formatter.string(from: diff)!
+            
+            if diffTime.count == 9{
+                alarmHour = Int(String(diffTime.prefix(3)))!
+                alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 4)..<diffTime.index(diffTime.startIndex, offsetBy: 6)]))!
+                alarmSec = Int(String(diffTime.suffix(2)))!
+            }else if diffTime.count == 8{
+                alarmHour = Int(String(diffTime.prefix(2)))!
+                alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 3)..<diffTime.index(diffTime.startIndex, offsetBy: 5)]))!
+                alarmSec = Int(String(diffTime.suffix(2)))!
+            }else if diffTime.count == 7{
+                alarmHour = Int(String(diffTime.prefix(1)))!
+                alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 2)..<diffTime.index(diffTime.startIndex, offsetBy: 4)]))!
+                alarmSec = Int(String(diffTime.suffix(2)))!
+            }else if diffTime.count == 5{
+                alarmHour = 0
+                alarmMin = Int(String(diffTime.prefix(2)))!
+                alarmSec = Int(String(diffTime.suffix(2)))!
+            }else if diffTime.count == 4{
+                alarmHour = 0
+                alarmMin = Int(String(diffTime.prefix(1)))!
+                alarmSec = Int(String(diffTime.suffix(2)))!
+            }else if diffTime.count == 2{
+                alarmHour = 0
+                alarmMin = 0
+                alarmSec = Int(String(diffTime.suffix(2)))!
+            }else if diffTime.count == 1{
+                alarmHour = 0
+                alarmMin = 0
+                alarmSec = Int(String(diffTime.suffix(1)))!
+            }
+            
+        }
         
-        
-        
-        alarmHour = 3
-        alarmMin = 3
-        alarmSec = 3
         countTime.text = String(format: "%02d", alarmHour) + ":" + String(format: "%02d", alarmMin) + ":" + String(format: "%02d", alarmSec)
+        if let aa = countDown{
+            aa.invalidate()
+        }
         //1秒ごとに時間をtimerメソッドを呼び出す。
-//        Timer.scheduledTimer(timeInterval: 1, target: self, selector:#selector(timer) , userInfo: nil, repeats: false)
+        countDown = Timer.scheduledTimer(timeInterval: 1, target: self, selector:#selector(timer) , userInfo: nil, repeats: true)
+        
+        //pickerの初期値
+        var initialHour:Int?
+        var initialMin:Int?
+        
+        let selectedTimeResult = realm.objects(SelectedTime.self).first
+        if let selected = selectedTimeResult{
+            initialHour = selected.hour
+            initialMin = selected.minutes
+        }else{
+            initialHour = 0
+            initialMin = 0
+        }
+        
+        //pickerの初期値
+        timePickerView.selectRow(initialHour!, inComponent: 0, animated: true)
+        timePickerView.selectRow(initialMin!, inComponent: 1, animated: true)
         
         
+        //NSNotificationCenterへ登録
+        //NSNotification.Name.UIApplicationWillEnterForegroundを受け取った時に、viewWillEnterForegroundを実行する設定
+        NotificationCenter.default.addObserver(self, selector: #selector(FirstViewController.viewWillEnterForeground(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
         
+        //NSNotification.Name.UIApplicationDidEnterBackgroundを受け取った時に、viewDidEnterBackgroundを実行する設定
+        NotificationCenter.default.addObserver(self, selector: #selector(FirstViewController.viewDidEnterBackground(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        
+
         // Do any additional setup after loading the view.
     }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //フォアグラウンドの処理を記載
+    //ViewControllerが表示されている場合のみ更新。
+    //こうしないと、複数ViewControllerでNSNotificationCenter登録している場合、表示されていないViewControllerでも処理が実行される
+    @objc func viewWillEnterForeground(_ notification: Notification?) {
+        if (self.isViewLoaded && (self.view.window != nil)) {
+            print("フォアグラウンド")
+            loadView()
+            viewDidLoad()
+            
+        }
+    }
+    
+    //バックグラウンドの処理を記載
+    @objc func viewDidEnterBackground(_ notification: Notification?) {
+        if (self.isViewLoaded && (self.view.window != nil)) {
+            print("バックグラウンド")
+        }
+    }
+    
+    
+    
+
     //毎日ボタンのアクション
     @IBAction func allActionButton(_ sender: Any) {
         
@@ -665,33 +754,418 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     @IBAction func saveActionButton(_ sender: Any) {
         
-        let alarmSetTommory:Date = SelectTime.selectTimeTomorrow(hour: selectedHour ?? 0, min: selectedMin ?? 0)
-        let alarmSetToday:Date = SelectTime.selectTimeToday(hour: selectedHour ?? 0, min: selectedMin ?? 0)
-        
-        let date1 = Date()
-        
-        var alarmSet:Date?
-        
-        // NSDate（日時）の比較
-        if ( date1.compare(alarmSetToday) == .orderedAscending ) {
-            print("date1が前")
-            alarmSet = alarmSetToday
-        }
-        else if ( date1.compare(alarmSetToday) == .orderedSame ) {
-            alarmSet = alarmSetToday
-        }
-        else {
-            print("date1が後")
-            alarmSet = alarmSetTommory
+        if onlyStatus == 0 && monStatus == 0 && tueStatus == 0 && wedStatus == 0 && thuStatus == 0 && friStatus == 0 && satStatus == 0 && sunStatus == 0{
+            let alert: UIAlertController = UIAlertController(title: "チェックしてください", message: nil, preferredStyle:  UIAlertController.Style.alert)
+            // キャンセルボタン
+            let cancelAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler:{
+                // ボタンが押された時の処理を書く（クロージャ実装）
+                (action: UIAlertAction!) -> Void in
+                
+            })
+            alert.addAction(cancelAction)
+            present(alert, animated: true, completion: nil)
+            
+            return
         }
         
-        print(alarmSet)
-         
+        //pickerの初期値
+        var initialHour:Int?
+        var initialMin:Int?
         
         let realm = try! Realm()
+        let selectedTimeResult = realm.objects(SelectedTime.self).first
+        if let selected = selectedTimeResult{
+            initialHour = selected.hour
+            initialMin = selected.minutes
+        }else{
+            initialHour = 0
+            initialMin = 0
+        }
+    
+        //時間をセットして、今日の日にちをとってくる
+        let alarmSetToday:Date = SelectTime.selectTimeToday(hour: selectedHour ?? initialHour!, min: selectedMin ?? initialMin!)
+        //時間をセットして、明日の日にちをとってくる
+        let alarmSetTommory:Date = SelectTime.selectTimeTomorrow(hour: selectedHour ?? initialHour!, min: selectedMin ?? initialMin!)
+        let alarmSetTwoAf:Date = SelectTime.selectTimeTwoAf(hour: selectedHour ?? initialHour!, min: selectedMin ?? initialMin!)
+        let alarmSetThreeAf:Date = SelectTime.selectTimeThreeAf(hour: selectedHour ?? initialHour!, min: selectedMin ?? initialMin!)
+        let alarmSetFourAf:Date = SelectTime.selectTimeFourAf(hour: selectedHour ?? initialHour!, min: selectedMin ?? initialMin!)
+        let alarmSetFiveAf:Date = SelectTime.selectTimeFiveAf(hour: selectedHour ?? initialHour!, min: selectedMin ?? initialMin!)
+        let alarmSetSixAf:Date = SelectTime.selectTimeSixAf(hour: selectedHour ?? initialHour!, min: selectedMin ?? initialMin!)
+        let alarmSetSevenAf:Date = SelectTime.selectTimeSevenAf(hour: selectedHour ?? initialHour!, min: selectedMin ?? initialMin!)
+        
+        
+        
+        //比較用に現在時刻を獲得
+        let date1 = Date()
+        //変数alarmsSetを用意
+        var alarmSet:Date?
+        
+        let dayOfWeekToday = DateFormatter()
+        dayOfWeekToday.dateFormat = DateFormatter.dateFormat(fromTemplate: "E", options: 1, locale: Locale.current)
+       
+        if dayOfWeekToday.string(from: Date()) == "Mon"{
+            if alarmSetToday > date1{
+                if monStatus == 1{
+                    alarmSet = alarmSetToday
+                }else{
+                    if tueStatus == 1{
+                        alarmSet = alarmSetTommory
+                    }else{
+                        if wedStatus == 1{
+                            alarmSet = alarmSetTwoAf
+
+                        }else{
+                            if thuStatus == 1{
+                                alarmSet = alarmSetThreeAf
+                            }else{
+                                if friStatus == 1{
+                                    alarmSet = alarmSetFourAf
+
+                                }else{
+                                    if satStatus == 1{
+                                        alarmSet = alarmSetFiveAf
+                                        
+                                    }else{
+                                        if sunStatus == 1{
+                                            alarmSet = alarmSetSixAf
+                                            }}}}}}}
+                }else{
+                if tueStatus == 1{
+                    alarmSet = alarmSetTommory
+                }else{
+                    if wedStatus == 1{
+                        alarmSet = alarmSetTwoAf
+                    }else{
+                        if thuStatus == 1{
+                           alarmSet = alarmSetThreeAf
+                        }else{
+                            if friStatus == 1{
+                                alarmSet = alarmSetFourAf
+                            }else{
+                                if satStatus == 1{
+                                    alarmSet = alarmSetFiveAf
+                                }else{
+                                    if sunStatus == 1{
+                                        alarmSet = alarmSetSixAf
+                                    }else{
+                                        if monStatus == 1{
+                                            alarmSet = alarmSetSevenAf
+                                        }}}}}}}}
+        }else if dayOfWeekToday.string(from: Date()) == "Tue"{
+            if alarmSetToday > date1{
+            if tueStatus == 1{
+                alarmSet = alarmSetToday
+            }else{
+                if wedStatus == 1{
+                    alarmSet = alarmSetTommory
+                }else{
+                    if thuStatus == 1{
+                        alarmSet = alarmSetTwoAf
+
+                    }else{
+                        if friStatus == 1{
+                            alarmSet = alarmSetThreeAf
+                        }else{
+                            if satStatus == 1{
+                                alarmSet = alarmSetFourAf
+
+                            }else{
+                                if sunStatus == 1{
+                                    alarmSet = alarmSetFiveAf
+                                    
+                                }else{
+                                    if monStatus == 1{
+                                        alarmSet = alarmSetSixAf
+                                        }}}}}}}
+            }else{
+            if wedStatus == 1{
+                alarmSet = alarmSetTommory
+            }else{
+                if thuStatus == 1{
+                    alarmSet = alarmSetTwoAf
+                }else{
+                    if friStatus == 1{
+                       alarmSet = alarmSetThreeAf
+                    }else{
+                        if satStatus == 1{
+                            alarmSet = alarmSetFourAf
+                        }else{
+                            if sunStatus == 1{
+                                alarmSet = alarmSetFiveAf
+                            }else{
+                                if monStatus == 1{
+                                    alarmSet = alarmSetSixAf
+                                }else{
+                                    if tueStatus == 1{
+                                        alarmSet = alarmSetSevenAf
+                                    }}}}}}}}
+            print("火曜だ")
+        }else if dayOfWeekToday.string(from: Date()) == "Wed"{
+            if alarmSetToday > date1{
+            if wedStatus == 1{
+                alarmSet = alarmSetToday
+            }else{
+                if thuStatus == 1{
+                    alarmSet = alarmSetTommory
+                }else{
+                    if friStatus == 1{
+                        alarmSet = alarmSetTwoAf
+
+                    }else{
+                        if satStatus == 1{
+                            alarmSet = alarmSetThreeAf
+                        }else{
+                            if sunStatus == 1{
+                                alarmSet = alarmSetFourAf
+
+                            }else{
+                                if monStatus == 1{
+                                    alarmSet = alarmSetFiveAf
+                                    
+                                }else{
+                                    if tueStatus == 1{
+                                        alarmSet = alarmSetSixAf
+                                        }}}}}}}
+            }else{
+            if thuStatus == 1{
+                alarmSet = alarmSetTommory
+            }else{
+                if friStatus == 1{
+                    alarmSet = alarmSetTwoAf
+                }else{
+                    if satStatus == 1{
+                       alarmSet = alarmSetThreeAf
+                    }else{
+                        if sunStatus == 1{
+                            alarmSet = alarmSetFourAf
+                        }else{
+                            if monStatus == 1{
+                                alarmSet = alarmSetFiveAf
+                            }else{
+                                if tueStatus == 1{
+                                    alarmSet = alarmSetSixAf
+                                }else{
+                                    if wedStatus == 1{
+                                        alarmSet = alarmSetSevenAf
+                                    }}}}}}}}
+            print("水だ")
+        }else if dayOfWeekToday.string(from: Date()) == "Thu"{
+            if alarmSetToday > date1{
+            if thuStatus == 1{
+                alarmSet = alarmSetToday
+            }else{
+                if friStatus == 1{
+                    alarmSet = alarmSetTommory
+                }else{
+                    if satStatus == 1{
+                        alarmSet = alarmSetTwoAf
+
+                    }else{
+                        if sunStatus == 1{
+                            alarmSet = alarmSetThreeAf
+                        }else{
+                            if monStatus == 1{
+                                alarmSet = alarmSetFourAf
+
+                            }else{
+                                if tueStatus == 1{
+                                    alarmSet = alarmSetFiveAf
+                                    
+                                }else{
+                                    if wedStatus == 1{
+                                        alarmSet = alarmSetSixAf
+                                        }}}}}}}
+            }else{
+            if friStatus == 1{
+                alarmSet = alarmSetTommory
+            }else{
+                if satStatus == 1{
+                    alarmSet = alarmSetTwoAf
+                }else{
+                    if sunStatus == 1{
+                       alarmSet = alarmSetThreeAf
+                    }else{
+                        if monStatus == 1{
+                            alarmSet = alarmSetFourAf
+                        }else{
+                            if tueStatus == 1{
+                                alarmSet = alarmSetFiveAf
+                            }else{
+                                if wedStatus == 1{
+                                    alarmSet = alarmSetSixAf
+                                }else{
+                                    if thuStatus == 1{
+                                        alarmSet = alarmSetSevenAf
+                                    }}}}}}}}
+
+            print("木だ")
+        }else if dayOfWeekToday.string(from: Date()) == "Fri"{
+            if alarmSetToday > date1{
+            if friStatus == 1{
+                alarmSet = alarmSetToday
+            }else{
+                if satStatus == 1{
+                    alarmSet = alarmSetTommory
+                }else{
+                    if sunStatus == 1{
+                        alarmSet = alarmSetTwoAf
+
+                    }else{
+                        if monStatus == 1{
+                            alarmSet = alarmSetThreeAf
+                        }else{
+                            if tueStatus == 1{
+                                alarmSet = alarmSetFourAf
+
+                            }else{
+                                if wedStatus == 1{
+                                    alarmSet = alarmSetFiveAf
+                                    
+                                }else{
+                                    if thuStatus == 1{
+                                        alarmSet = alarmSetSixAf
+                                        }}}}}}}
+            }else{
+            if satStatus == 1{
+                alarmSet = alarmSetTommory
+            }else{
+                if sunStatus == 1{
+                    alarmSet = alarmSetTwoAf
+                }else{
+                    if monStatus == 1{
+                       alarmSet = alarmSetThreeAf
+                    }else{
+                        if tueStatus == 1{
+                            alarmSet = alarmSetFourAf
+                        }else{
+                            if wedStatus == 1{
+                                alarmSet = alarmSetFiveAf
+                            }else{
+                                if thuStatus == 1{
+                                    alarmSet = alarmSetSixAf
+                                }else{
+                                    if friStatus == 1{
+                                        alarmSet = alarmSetSevenAf
+                                    }}}}}}}}
+            print("金だ")
+        }else if dayOfWeekToday.string(from: Date()) == "Sat"{
+            if alarmSetToday > date1{
+            if satStatus == 1{
+                alarmSet = alarmSetToday
+            }else{
+                if sunStatus == 1{
+                    alarmSet = alarmSetTommory
+                }else{
+                    if monStatus == 1{
+                        alarmSet = alarmSetTwoAf
+
+                    }else{
+                        if tueStatus == 1{
+                            alarmSet = alarmSetThreeAf
+                        }else{
+                            if wedStatus == 1{
+                                alarmSet = alarmSetFourAf
+
+                            }else{
+                                if thuStatus == 1{
+                                    alarmSet = alarmSetFiveAf
+                                    
+                                }else{
+                                    if friStatus == 1{
+                                        alarmSet = alarmSetSixAf
+                                        }}}}}}}
+            }else{
+            if sunStatus == 1{
+                alarmSet = alarmSetTommory
+            }else{
+                if monStatus == 1{
+                    alarmSet = alarmSetTwoAf
+                }else{
+                    if tueStatus == 1{
+                       alarmSet = alarmSetThreeAf
+                    }else{
+                        if wedStatus == 1{
+                            alarmSet = alarmSetFourAf
+                        }else{
+                            if thuStatus == 1{
+                                alarmSet = alarmSetFiveAf
+                            }else{
+                                if friStatus == 1{
+                                    alarmSet = alarmSetSixAf
+                                }else{
+                                    if satStatus == 1{
+                                        alarmSet = alarmSetSevenAf
+                                    }}}}}}}}
+            print("土だ")
+        }else{
+           if alarmSetToday > date1{
+           if sunStatus == 1{
+               alarmSet = alarmSetToday
+           }else{
+               if monStatus == 1{
+                   alarmSet = alarmSetTommory
+               }else{
+                   if tueStatus == 1{
+                       alarmSet = alarmSetTwoAf
+
+                   }else{
+                       if wedStatus == 1{
+                           alarmSet = alarmSetThreeAf
+                       }else{
+                           if thuStatus == 1{
+                               alarmSet = alarmSetFourAf
+
+                           }else{
+                               if friStatus == 1{
+                                   alarmSet = alarmSetFiveAf
+                                   
+                               }else{
+                                   if satStatus == 1{
+                                       alarmSet = alarmSetSixAf
+                                       }}}}}}}
+           }else{
+           if monStatus == 1{
+               alarmSet = alarmSetTommory
+           }else{
+               if tueStatus == 1{
+                   alarmSet = alarmSetTwoAf
+               }else{
+                   if wedStatus == 1{
+                      alarmSet = alarmSetThreeAf
+                   }else{
+                       if thuStatus == 1{
+                           alarmSet = alarmSetFourAf
+                       }else{
+                           if friStatus == 1{
+                               alarmSet = alarmSetFiveAf
+                           }else{
+                               if satStatus == 1{
+                                   alarmSet = alarmSetSixAf
+                               }else{
+                                   if sunStatus == 1{
+                                       alarmSet = alarmSetSevenAf
+                                   }}}}}}}}
+            print("日だ")
+        }
+       
+        if alarmSet == nil{
+            if ( date1.compare(alarmSetToday) == .orderedAscending ) {
+                        print("date1が前")
+                        alarmSet = alarmSetToday
+                    }
+                    else if ( date1.compare(alarmSetToday) == .orderedSame ) {
+                        alarmSet = alarmSetToday
+                    }
+                    else {
+                        print("date1が後")
+                        alarmSet = alarmSetTommory
+                    }
+            
+        }
         
         let alarmResult = realm.objects(Alarm.self).first
         
+        //alarmResults があれば上書きし、なければ新規作成
         if let status = alarmResult{
             try! realm.write {
                 status.alarm = alarmSet ?? Date()
@@ -723,12 +1197,17 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             try! realm.write {
                 realm.add(alarm)
             }
-            
-            
         }
+    
         let cal = Calendar(identifier: .gregorian)
         // 現在日時を dt に代入
-        let setTime = alarmResult!.alarm
+        var setTime:Date
+        if let aa = alarmResult{
+            setTime = aa.alarm
+        }else{
+            setTime = alarmSet!
+        }
+        
         // 8時間後を求める（60秒 × 60分 × 8時間)
         let nowTime = Date()
 
@@ -744,9 +1223,11 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         // 設定した書式にしたがって表示
         let diffTime = formatter.string(from: diff)!
         
-        print(diffTime)
-    
-        if diffTime.count == 8{
+        if diffTime.count == 9{
+            alarmHour = Int(String(diffTime.prefix(3)))!
+            alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 4)..<diffTime.index(diffTime.startIndex, offsetBy: 6)]))!
+            alarmSec = Int(String(diffTime.suffix(2)))!
+        }else if diffTime.count == 8{
             alarmHour = Int(String(diffTime.prefix(2)))!
             alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 3)..<diffTime.index(diffTime.startIndex, offsetBy: 5)]))!
             alarmSec = Int(String(diffTime.suffix(2)))!
@@ -772,10 +1253,6 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             alarmSec = Int(String(diffTime.suffix(1)))!
         }
         
-        print(alarmHour)
-        print(alarmMin)
-        print(alarmSec)
-        
         countTime.text = String(format: "%02d", alarmHour) + ":" + String(format: "%02d", alarmMin) + ":" + String(format: "%02d", alarmSec)
         
         if let aa = countDown{
@@ -785,8 +1262,93 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         //1秒ごとに時間をtimerメソッドを呼び出す。
         countDown = Timer.scheduledTimer(timeInterval: 1, target: self, selector:#selector(timer) , userInfo: nil, repeats: true)
         
+        
+        //------ローカルプッシュの設定↓
+        //　通知設定に必要なクラスをインスタンス化
+        let trigger: UNNotificationTrigger
+        let content = UNMutableNotificationContent()
+        var notificationTime = DateComponents()
+
+        // トリガー設定
+        print(alarmSet)
+        // DateFormatter のインスタンスを作成
+        let alarmSetJpYear = DateFormatter()
+        // ロケールを日本（日本語）に設定
+        alarmSetJpYear.locale = Locale(identifier: "ja_JP")
+        alarmSetJpYear.setTemplate(.year)
+        print(alarmSetJpYear.string(from: alarmSet!))
+        
+        let alarmSetJpMonth = DateFormatter()
+        // ロケールを日本（日本語）に設定
+        alarmSetJpMonth.locale = Locale(identifier: "ja_JP")
+        alarmSetJpMonth.setTemplate(.month)
+        print(alarmSetJpMonth.string(from: alarmSet!))
+        
+        let alarmSetJpDay = DateFormatter()
+        // ロケールを日本（日本語）に設定
+        alarmSetJpDay.locale = Locale(identifier: "ja_JP")
+        alarmSetJpDay.setTemplate(.day)
+        print(alarmSetJpDay.string(from: alarmSet!))
+        
+        let alarmSetJpHour = DateFormatter()
+        // ロケールを日本（日本語）に設定
+        alarmSetJpHour.locale = Locale(identifier: "ja_JP")
+        alarmSetJpHour.setTemplate(.hour)
+        print(alarmSetJpHour.string(from: alarmSet!))
+        
+        let alarmSetJpMin = DateFormatter()
+        // ロケールを日本（日本語）に設定
+        alarmSetJpMin.locale = Locale(identifier: "ja_JP")
+        alarmSetJpMin.setTemplate(.min)
+        print(alarmSetJpMin.string(from: alarmSet!))
+        
+        notificationTime.year = Int(alarmSetJpYear.string(from: alarmSet!))
+        notificationTime.month = Int(alarmSetJpMonth.string(from: alarmSet!))
+        notificationTime.day = Int(alarmSetJpDay.string(from: alarmSet!))
+        notificationTime.hour = Int(alarmSetJpHour.string(from: alarmSet!))
+        notificationTime.minute = Int(alarmSetJpMin.string(from: alarmSet!))
+        
+        print(notificationTime)
+        trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
+
+        // 通知内容の設定
+        content.title = "起きる時間ですよ"
+        content.body = "今日のおみくじ結果と天気を確認しよう"
+          
+
+        // 通知スタイルを指定
+        let request = UNNotificationRequest(identifier: "uuid", content: content, trigger: trigger)
+        // 通知をセット
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        
+        
+        //------ローカルプッシュの設定↑
+        
+        
+        
     
     }
+    
+    @IBAction func resetAction(_ sender: Any) {
+        
+        
+        let realm = try! Realm()
+        let alarm = realm.objects(Alarm.self)
+        try! realm.write {
+            realm.delete(alarm)
+            
+        }
+        alarmHour = 0
+        alarmMin = 0
+        alarmSec = 0
+        countTime.text = String(format: "%02d", alarmHour) + ":" + String(format: "%02d", alarmMin) + ":" + String(format: "%02d", alarmSec)
+
+        if let aa = countDown{
+            aa.invalidate()
+        }
+    }
+    
+    
     
     @objc func timer(){
         if (alarmHour == 0 && alarmMin == 0 && alarmSec == 0) {
@@ -811,6 +1373,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             countTime.text = String(format: "%02d", alarmHour) + ":" + String(format: "%02d", alarmMin) + ":" + String(format: "%02d", alarmSec)
         }
     }
+    
 
 }
 
