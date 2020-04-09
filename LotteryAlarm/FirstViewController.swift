@@ -77,9 +77,6 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     var selectedHour:Int?
     var selectedMin:Int?
     
-    
-    
-
        //コンポーネントに含まれるデータの個数を返すメソッド
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
            return dataList[component].count
@@ -96,9 +93,6 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         }
     }
     
-    
-       
-
        //データを返すメソッド
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let item = dataList[component][row].description
@@ -135,9 +129,6 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
                 realm.add(selected)
             }
         }
-        
-        
-        
     }
     
     @IBOutlet weak var countTime: UILabel!
@@ -149,13 +140,13 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     var time: [Int] = [1,10,10]
     var countDown:Timer?
     
-
+    var push:UNUserNotificationCenter?
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print(Realm.Configuration.defaultConfiguration.fileURL!)
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
         
         timePickerView.frame = CGRect(x: 0, y: myBoundSize.height * 0.1, width: myBoundSize.width, height: myBoundSize.height * 0.25)
         
@@ -330,66 +321,78 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         onlyLabel.textColor = UIColor.gray
         self.view.addSubview(onlyLabel)
         
-        
+        print("なにが起きてるの")
+        print(setTime)
         
         if setTime == nil{
             alarmHour = 0
             alarmMin = 0
             alarmSec = 0
+            countTime.text = String(format: "%02d", alarmHour) + ":" + String(format: "%02d", alarmMin) + ":" + String(format: "%02d", alarmSec)
         }else{
             let cal = Calendar(identifier: .gregorian)
             let nowTime = Date()
-
-            // setTime - nowTime を計算
-            let diff = cal.dateComponents([.second], from: nowTime, to: setTime!)
-            
-            // 書式を設定する
-            let formatter = DateComponentsFormatter()
-            // 表示単位を指定
-            formatter.unitsStyle = .positional
-            // 表示する時間単位を指定
-            formatter.allowedUnits = [.hour, .minute, .second]
-            // 設定した書式にしたがって表示
-            let diffTime = formatter.string(from: diff)!
-            
-            if diffTime.count == 9{
-                alarmHour = Int(String(diffTime.prefix(3)))!
-                alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 4)..<diffTime.index(diffTime.startIndex, offsetBy: 6)]))!
-                alarmSec = Int(String(diffTime.suffix(2)))!
-            }else if diffTime.count == 8{
-                alarmHour = Int(String(diffTime.prefix(2)))!
-                alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 3)..<diffTime.index(diffTime.startIndex, offsetBy: 5)]))!
-                alarmSec = Int(String(diffTime.suffix(2)))!
-            }else if diffTime.count == 7{
-                alarmHour = Int(String(diffTime.prefix(1)))!
-                alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 2)..<diffTime.index(diffTime.startIndex, offsetBy: 4)]))!
-                alarmSec = Int(String(diffTime.suffix(2)))!
-            }else if diffTime.count == 5{
-                alarmHour = 0
-                alarmMin = Int(String(diffTime.prefix(2)))!
-                alarmSec = Int(String(diffTime.suffix(2)))!
-            }else if diffTime.count == 4{
-                alarmHour = 0
-                alarmMin = Int(String(diffTime.prefix(1)))!
-                alarmSec = Int(String(diffTime.suffix(2)))!
-            }else if diffTime.count == 2{
-                alarmHour = 0
-                alarmMin = 0
-                alarmSec = Int(String(diffTime.suffix(2)))!
-            }else if diffTime.count == 1{
-                alarmHour = 0
-                alarmMin = 0
-                alarmSec = Int(String(diffTime.suffix(1)))!
+            if setTime! < nowTime{
+                //まずは、同じstororyboard内であることをここで定義します
+                let storyboard: UIStoryboard = self.storyboard!
+                //ここで移動先のstoryboardを選択(今回の場合は先ほどsecondと名付けたのでそれを書きます)
+                let second = storyboard.instantiateViewController(withIdentifier: "come")
+                //ここが実際に移動するコードとなります
+                second.modalPresentationStyle = .fullScreen
+                self.present(second, animated: true, completion: nil)
+                
+            }else{
+                // setTime - nowTime を計算
+                let diff = cal.dateComponents([.second], from: nowTime, to: setTime!)
+                
+                // 書式を設定する
+                let formatter = DateComponentsFormatter()
+                // 表示単位を指定
+                formatter.unitsStyle = .positional
+                // 表示する時間単位を指定
+                formatter.allowedUnits = [.hour, .minute, .second]
+                // 設定した書式にしたがって表示
+                let diffTime = formatter.string(from: diff)!
+                
+                if diffTime.count == 9{
+                    alarmHour = Int(String(diffTime.prefix(3)))!
+                    alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 4)..<diffTime.index(diffTime.startIndex, offsetBy: 6)]))!
+                    alarmSec = Int(String(diffTime.suffix(2)))!
+                }else if diffTime.count == 8{
+                    alarmHour = Int(String(diffTime.prefix(2)))!
+                    alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 3)..<diffTime.index(diffTime.startIndex, offsetBy: 5)]))!
+                    alarmSec = Int(String(diffTime.suffix(2)))!
+                }else if diffTime.count == 7{
+                    alarmHour = Int(String(diffTime.prefix(1)))!
+                    alarmMin = Int(String(diffTime[diffTime.index(diffTime.startIndex, offsetBy: 2)..<diffTime.index(diffTime.startIndex, offsetBy: 4)]))!
+                    alarmSec = Int(String(diffTime.suffix(2)))!
+                }else if diffTime.count == 5{
+                    alarmHour = 0
+                    alarmMin = Int(String(diffTime.prefix(2)))!
+                    alarmSec = Int(String(diffTime.suffix(2)))!
+                }else if diffTime.count == 4{
+                    alarmHour = 0
+                    alarmMin = Int(String(diffTime.prefix(1)))!
+                    alarmSec = Int(String(diffTime.suffix(2)))!
+                }else if diffTime.count == 2{
+                    alarmHour = 0
+                    alarmMin = 0
+                    alarmSec = Int(String(diffTime.suffix(2)))!
+                }else if diffTime.count == 1{
+                    alarmHour = 0
+                    alarmMin = 0
+                    alarmSec = Int(String(diffTime.suffix(1)))!
+                }
+                countTime.text = String(format: "%02d", alarmHour) + ":" + String(format: "%02d", alarmMin) + ":" + String(format: "%02d", alarmSec)
+                if let aa = countDown{
+                    aa.invalidate()
+                }
+                //1秒ごとに時間をtimerメソッドを呼び出す。
+                countDown = Timer.scheduledTimer(timeInterval: 1, target: self, selector:#selector(timer) , userInfo: nil, repeats: true)
             }
             
         }
         
-        countTime.text = String(format: "%02d", alarmHour) + ":" + String(format: "%02d", alarmMin) + ":" + String(format: "%02d", alarmSec)
-        if let aa = countDown{
-            aa.invalidate()
-        }
-        //1秒ごとに時間をtimerメソッドを呼び出す。
-        countDown = Timer.scheduledTimer(timeInterval: 1, target: self, selector:#selector(timer) , userInfo: nil, repeats: true)
         
         //pickerの初期値
         var initialHour:Int?
@@ -408,16 +411,6 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         timePickerView.selectRow(initialHour!, inComponent: 0, animated: true)
         timePickerView.selectRow(initialMin!, inComponent: 1, animated: true)
         
-        
-        //NSNotificationCenterへ登録
-        //NSNotification.Name.UIApplicationWillEnterForegroundを受け取った時に、viewWillEnterForegroundを実行する設定
-        NotificationCenter.default.addObserver(self, selector: #selector(FirstViewController.viewWillEnterForeground(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-        
-        //NSNotification.Name.UIApplicationDidEnterBackgroundを受け取った時に、viewDidEnterBackgroundを実行する設定
-        NotificationCenter.default.addObserver(self, selector: #selector(FirstViewController.viewDidEnterBackground(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-        
-        
-
         // Do any additional setup after loading the view.
     }
     override func didReceiveMemoryWarning() {
@@ -425,27 +418,28 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         // Dispose of any resources that can be recreated.
     }
     
-    //フォアグラウンドの処理を記載
-    //ViewControllerが表示されている場合のみ更新。
-    //こうしないと、複数ViewControllerでNSNotificationCenter登録している場合、表示されていないViewControllerでも処理が実行される
-    @objc func viewWillEnterForeground(_ notification: Notification?) {
-        if (self.isViewLoaded && (self.view.window != nil)) {
-            print("フォアグラウンド")
-            loadView()
-            viewDidLoad()
-            
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 登録
+        NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground(
+            notification:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(viewDidEnterBackground(
+            notification:)), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    //バックグラウンドの処理を記載
-    @objc func viewDidEnterBackground(_ notification: Notification?) {
-        if (self.isViewLoaded && (self.view.window != nil)) {
-            print("バックグラウンド")
-        }
+    // AppDelegate -> applicationWillEnterForegroundの通知
+    @objc func viewWillEnterForeground(notification: Notification) {
+        print("フォアグラウンド")
+        loadView()
+        viewDidLoad()
+    }
+
+    // AppDelegate -> applicationDidEnterBackgroundの通知
+    @objc func viewDidEnterBackground(notification: Notification) {
+        print("バックグラウンド")
     }
     
-    
-    
+
 
     //毎日ボタンのアクション
     @IBAction func allActionButton(_ sender: Any) {
@@ -799,6 +793,17 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let date1 = Date()
         //変数alarmsSetを用意
         var alarmSet:Date?
+        //設定日を用意しておく
+        var settingDate:Date?
+        
+        let settingDateToday = Calendar.current.date(byAdding: .day, value: 0, to: date1 )!
+        let settingDateOne = Calendar.current.date(byAdding: .day, value: 1, to: date1 )!
+        let settingDateTwo = Calendar.current.date(byAdding: .day, value: 2, to: date1 )!
+        let settingDateThree = Calendar.current.date(byAdding: .day, value: 3, to: date1 )!
+        let settingDateFour = Calendar.current.date(byAdding: .day, value: 4, to: date1 )!
+        let settingDateFive = Calendar.current.date(byAdding: .day, value: 5, to: date1 )!
+        let settingDateSix = Calendar.current.date(byAdding: .day, value: 6, to: date1 )!
+        let settingDateSeven = Calendar.current.date(byAdding: .day, value: 7, to: date1 )!
         
         let dayOfWeekToday = DateFormatter()
         dayOfWeekToday.dateFormat = DateFormatter.dateFormat(fromTemplate: "E", options: 1, locale: Locale.current)
@@ -807,195 +812,239 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             if alarmSetToday > date1{
                 if monStatus == 1{
                     alarmSet = alarmSetToday
+                    settingDate = settingDateToday
                 }else{
                     if tueStatus == 1{
                         alarmSet = alarmSetTommory
+                        settingDate = settingDateOne
                     }else{
                         if wedStatus == 1{
                             alarmSet = alarmSetTwoAf
-
+                            settingDate = settingDateTwo
                         }else{
                             if thuStatus == 1{
                                 alarmSet = alarmSetThreeAf
+                                settingDate = settingDateThree
                             }else{
                                 if friStatus == 1{
                                     alarmSet = alarmSetFourAf
-
+                                    settingDate = settingDateFour
                                 }else{
                                     if satStatus == 1{
                                         alarmSet = alarmSetFiveAf
-                                        
+                                        settingDate = settingDateFive
                                     }else{
                                         if sunStatus == 1{
                                             alarmSet = alarmSetSixAf
+                                            settingDate = settingDateSix
                                             }}}}}}}
                 }else{
                 if tueStatus == 1{
                     alarmSet = alarmSetTommory
+                    settingDate = settingDateOne
                 }else{
                     if wedStatus == 1{
                         alarmSet = alarmSetTwoAf
+                        settingDate = settingDateTwo
                     }else{
                         if thuStatus == 1{
                            alarmSet = alarmSetThreeAf
+                            settingDate = settingDateThree
                         }else{
                             if friStatus == 1{
                                 alarmSet = alarmSetFourAf
+                                settingDate = settingDateFour
                             }else{
                                 if satStatus == 1{
                                     alarmSet = alarmSetFiveAf
+                                    settingDate = settingDateFive
                                 }else{
                                     if sunStatus == 1{
                                         alarmSet = alarmSetSixAf
+                                        settingDate = settingDateSix
                                     }else{
                                         if monStatus == 1{
                                             alarmSet = alarmSetSevenAf
+                                            settingDate = settingDateSeven
                                         }}}}}}}}
         }else if dayOfWeekToday.string(from: Date()) == "Tue"{
             if alarmSetToday > date1{
             if tueStatus == 1{
                 alarmSet = alarmSetToday
+                settingDate = settingDateToday
             }else{
                 if wedStatus == 1{
                     alarmSet = alarmSetTommory
+                    settingDate = settingDateOne
                 }else{
                     if thuStatus == 1{
                         alarmSet = alarmSetTwoAf
-
+                        settingDate = settingDateTwo
                     }else{
                         if friStatus == 1{
                             alarmSet = alarmSetThreeAf
+                            settingDate = settingDateThree
                         }else{
                             if satStatus == 1{
                                 alarmSet = alarmSetFourAf
-
+                                settingDate = settingDateFour
                             }else{
                                 if sunStatus == 1{
                                     alarmSet = alarmSetFiveAf
-                                    
+                                    settingDate = settingDateFive
                                 }else{
                                     if monStatus == 1{
                                         alarmSet = alarmSetSixAf
+                                        settingDate = settingDateSix
                                         }}}}}}}
             }else{
             if wedStatus == 1{
                 alarmSet = alarmSetTommory
+                settingDate = settingDateOne
             }else{
                 if thuStatus == 1{
                     alarmSet = alarmSetTwoAf
+                    settingDate = settingDateTwo
                 }else{
                     if friStatus == 1{
                        alarmSet = alarmSetThreeAf
+                        settingDate = settingDateThree
                     }else{
                         if satStatus == 1{
                             alarmSet = alarmSetFourAf
+                            settingDate = settingDateFour
                         }else{
                             if sunStatus == 1{
                                 alarmSet = alarmSetFiveAf
+                                settingDate = settingDateFive
                             }else{
                                 if monStatus == 1{
                                     alarmSet = alarmSetSixAf
+                                    settingDate = settingDateSix
                                 }else{
                                     if tueStatus == 1{
                                         alarmSet = alarmSetSevenAf
+                                        settingDate = settingDateSeven
                                     }}}}}}}}
             print("火曜だ")
         }else if dayOfWeekToday.string(from: Date()) == "Wed"{
             if alarmSetToday > date1{
             if wedStatus == 1{
                 alarmSet = alarmSetToday
+                settingDate = settingDateToday
             }else{
                 if thuStatus == 1{
                     alarmSet = alarmSetTommory
+                    settingDate = settingDateOne
                 }else{
                     if friStatus == 1{
                         alarmSet = alarmSetTwoAf
-
+                        settingDate = settingDateTwo
                     }else{
                         if satStatus == 1{
                             alarmSet = alarmSetThreeAf
+                            settingDate = settingDateThree
                         }else{
                             if sunStatus == 1{
                                 alarmSet = alarmSetFourAf
-
+                                settingDate = settingDateFour
                             }else{
                                 if monStatus == 1{
                                     alarmSet = alarmSetFiveAf
-                                    
+                                    settingDate = settingDateFive
                                 }else{
                                     if tueStatus == 1{
                                         alarmSet = alarmSetSixAf
+                                        settingDate = settingDateSix
                                         }}}}}}}
             }else{
             if thuStatus == 1{
                 alarmSet = alarmSetTommory
+                settingDate = settingDateOne
             }else{
                 if friStatus == 1{
                     alarmSet = alarmSetTwoAf
+                    settingDate = settingDateTwo
                 }else{
                     if satStatus == 1{
                        alarmSet = alarmSetThreeAf
+                        settingDate = settingDateThree
                     }else{
                         if sunStatus == 1{
                             alarmSet = alarmSetFourAf
+                            settingDate = settingDateFour
                         }else{
                             if monStatus == 1{
                                 alarmSet = alarmSetFiveAf
+                                settingDate = settingDateFive
                             }else{
                                 if tueStatus == 1{
                                     alarmSet = alarmSetSixAf
+                                    settingDate = settingDateSix
                                 }else{
                                     if wedStatus == 1{
                                         alarmSet = alarmSetSevenAf
+                                        settingDate = settingDateSeven
                                     }}}}}}}}
             print("水だ")
         }else if dayOfWeekToday.string(from: Date()) == "Thu"{
             if alarmSetToday > date1{
             if thuStatus == 1{
                 alarmSet = alarmSetToday
+                settingDate = settingDateToday
             }else{
                 if friStatus == 1{
                     alarmSet = alarmSetTommory
+                    settingDate = settingDateOne
                 }else{
                     if satStatus == 1{
                         alarmSet = alarmSetTwoAf
-
+                        settingDate = settingDateTwo
                     }else{
                         if sunStatus == 1{
                             alarmSet = alarmSetThreeAf
+                            settingDate = settingDateThree
                         }else{
                             if monStatus == 1{
                                 alarmSet = alarmSetFourAf
-
+                                settingDate = settingDateFour
                             }else{
                                 if tueStatus == 1{
                                     alarmSet = alarmSetFiveAf
-                                    
+                                    settingDate = settingDateFive
                                 }else{
                                     if wedStatus == 1{
                                         alarmSet = alarmSetSixAf
+                                        settingDate = settingDateSix
                                         }}}}}}}
             }else{
             if friStatus == 1{
                 alarmSet = alarmSetTommory
+                settingDate = settingDateOne
             }else{
                 if satStatus == 1{
                     alarmSet = alarmSetTwoAf
+                    settingDate = settingDateTwo
                 }else{
                     if sunStatus == 1{
                        alarmSet = alarmSetThreeAf
+                        settingDate = settingDateThree
                     }else{
                         if monStatus == 1{
                             alarmSet = alarmSetFourAf
+                            settingDate = settingDateFour
                         }else{
                             if tueStatus == 1{
                                 alarmSet = alarmSetFiveAf
+                                settingDate = settingDateFive
                             }else{
                                 if wedStatus == 1{
                                     alarmSet = alarmSetSixAf
+                                    settingDate = settingDateSix
                                 }else{
                                     if thuStatus == 1{
                                         alarmSet = alarmSetSevenAf
+                                        settingDate = settingDateSeven
                                     }}}}}}}}
 
             print("木だ")
@@ -1003,165 +1052,200 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             if alarmSetToday > date1{
             if friStatus == 1{
                 alarmSet = alarmSetToday
+                settingDate = settingDateToday
             }else{
                 if satStatus == 1{
                     alarmSet = alarmSetTommory
+                    settingDate = settingDateOne
                 }else{
                     if sunStatus == 1{
                         alarmSet = alarmSetTwoAf
-
+                        settingDate = settingDateTwo
                     }else{
                         if monStatus == 1{
                             alarmSet = alarmSetThreeAf
+                            settingDate = settingDateThree
                         }else{
                             if tueStatus == 1{
                                 alarmSet = alarmSetFourAf
-
+                                settingDate = settingDateFour
                             }else{
                                 if wedStatus == 1{
                                     alarmSet = alarmSetFiveAf
-                                    
+                                    settingDate = settingDateFive
                                 }else{
                                     if thuStatus == 1{
                                         alarmSet = alarmSetSixAf
+                                        settingDate = settingDateSix
                                         }}}}}}}
             }else{
             if satStatus == 1{
                 alarmSet = alarmSetTommory
+                settingDate = settingDateOne
             }else{
                 if sunStatus == 1{
                     alarmSet = alarmSetTwoAf
+                    settingDate = settingDateTwo
                 }else{
                     if monStatus == 1{
                        alarmSet = alarmSetThreeAf
+                        settingDate = settingDateThree
                     }else{
                         if tueStatus == 1{
                             alarmSet = alarmSetFourAf
+                            settingDate = settingDateFour
                         }else{
                             if wedStatus == 1{
                                 alarmSet = alarmSetFiveAf
+                                settingDate = settingDateFive
                             }else{
                                 if thuStatus == 1{
                                     alarmSet = alarmSetSixAf
+                                    settingDate = settingDateSix
                                 }else{
                                     if friStatus == 1{
                                         alarmSet = alarmSetSevenAf
+                                        settingDate = settingDateSeven
                                     }}}}}}}}
             print("金だ")
         }else if dayOfWeekToday.string(from: Date()) == "Sat"{
             if alarmSetToday > date1{
             if satStatus == 1{
                 alarmSet = alarmSetToday
+                settingDate = settingDateToday
             }else{
                 if sunStatus == 1{
                     alarmSet = alarmSetTommory
+                    settingDate = settingDateOne
                 }else{
                     if monStatus == 1{
                         alarmSet = alarmSetTwoAf
-
+                        settingDate = settingDateTwo
                     }else{
                         if tueStatus == 1{
                             alarmSet = alarmSetThreeAf
+                            settingDate = settingDateThree
                         }else{
                             if wedStatus == 1{
                                 alarmSet = alarmSetFourAf
-
+                                settingDate = settingDateFour
                             }else{
                                 if thuStatus == 1{
                                     alarmSet = alarmSetFiveAf
-                                    
+                                    settingDate = settingDateFive
                                 }else{
                                     if friStatus == 1{
                                         alarmSet = alarmSetSixAf
+                                        settingDate = settingDateSix
                                         }}}}}}}
             }else{
             if sunStatus == 1{
                 alarmSet = alarmSetTommory
+                settingDate = settingDateOne
             }else{
                 if monStatus == 1{
                     alarmSet = alarmSetTwoAf
+                    settingDate = settingDateTwo
                 }else{
                     if tueStatus == 1{
                        alarmSet = alarmSetThreeAf
+                        settingDate = settingDateThree
                     }else{
                         if wedStatus == 1{
                             alarmSet = alarmSetFourAf
+                            settingDate = settingDateFour
                         }else{
                             if thuStatus == 1{
                                 alarmSet = alarmSetFiveAf
+                                settingDate = settingDateFive
                             }else{
                                 if friStatus == 1{
                                     alarmSet = alarmSetSixAf
+                                    settingDate = settingDateSix
                                 }else{
                                     if satStatus == 1{
                                         alarmSet = alarmSetSevenAf
+                                        settingDate = settingDateSeven
                                     }}}}}}}}
             print("土だ")
         }else{
            if alarmSetToday > date1{
            if sunStatus == 1{
                alarmSet = alarmSetToday
+            settingDate = settingDateToday
            }else{
                if monStatus == 1{
                    alarmSet = alarmSetTommory
+                settingDate = settingDateOne
                }else{
                    if tueStatus == 1{
                        alarmSet = alarmSetTwoAf
-
+                    settingDate = settingDateTwo
                    }else{
                        if wedStatus == 1{
                            alarmSet = alarmSetThreeAf
+                        settingDate = settingDateThree
                        }else{
                            if thuStatus == 1{
                                alarmSet = alarmSetFourAf
-
+                            settingDate = settingDateFour
                            }else{
                                if friStatus == 1{
                                    alarmSet = alarmSetFiveAf
-                                   
+                                   settingDate = settingDateFive
                                }else{
                                    if satStatus == 1{
                                        alarmSet = alarmSetSixAf
+                                    settingDate = settingDateSix
                                        }}}}}}}
            }else{
            if monStatus == 1{
                alarmSet = alarmSetTommory
+            settingDate = settingDateOne
            }else{
                if tueStatus == 1{
                    alarmSet = alarmSetTwoAf
+                settingDate = settingDateTwo
                }else{
                    if wedStatus == 1{
                       alarmSet = alarmSetThreeAf
+                    settingDate = settingDateThree
                    }else{
                        if thuStatus == 1{
                            alarmSet = alarmSetFourAf
+                        settingDate = settingDateFour
                        }else{
                            if friStatus == 1{
                                alarmSet = alarmSetFiveAf
+                            settingDate = settingDateFive
                            }else{
                                if satStatus == 1{
                                    alarmSet = alarmSetSixAf
+                                settingDate = settingDateSix
                                }else{
                                    if sunStatus == 1{
                                        alarmSet = alarmSetSevenAf
+                                    settingDate = settingDateSeven
                                    }}}}}}}}
             print("日だ")
         }
        
         if alarmSet == nil{
             if ( date1.compare(alarmSetToday) == .orderedAscending ) {
-                        print("date1が前")
-                        alarmSet = alarmSetToday
-                    }
-                    else if ( date1.compare(alarmSetToday) == .orderedSame ) {
-                        alarmSet = alarmSetToday
-                    }
-                    else {
-                        print("date1が後")
-                        alarmSet = alarmSetTommory
-                    }
-            
+                print("date1が前")
+                alarmSet = alarmSetToday
+                settingDate = settingDateToday
+            }else if ( date1.compare(alarmSetToday) == .orderedSame ) {
+                alarmSet = alarmSetToday
+                settingDate = settingDateToday
+            }else{
+                print("date1が後")
+                alarmSet = alarmSetTommory
+                settingDate = settingDateOne
+            }
         }
+        print("確認用")
+        print(settingDate)
         
         let alarmResult = realm.objects(Alarm.self).first
         
@@ -1261,76 +1345,79 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
         //1秒ごとに時間をtimerメソッドを呼び出す。
         countDown = Timer.scheduledTimer(timeInterval: 1, target: self, selector:#selector(timer) , userInfo: nil, repeats: true)
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
+        let LotteryNo = LotterySet.LotteryNo(settingDate:settingDate!)
+        print(LotteryNo)
         
         //------ローカルプッシュの設定↓
-        //　通知設定に必要なクラスをインスタンス化
-        let trigger: UNNotificationTrigger
-        let content = UNMutableNotificationContent()
-        var notificationTime = DateComponents()
+        for i in 0...63 {
+            //　通知設定に必要なクラスをインスタンス化
+            let trigger: UNNotificationTrigger
+            let content = UNMutableNotificationContent()
+            var notificationTime = DateComponents()
+            
+            
+            let modifiedAlarmSet = Calendar.current.date(byAdding: .minute, value: i, to: alarmSet!)!
+            
 
-        // トリガー設定
-        print(alarmSet)
-        // DateFormatter のインスタンスを作成
-        let alarmSetJpYear = DateFormatter()
-        // ロケールを日本（日本語）に設定
-        alarmSetJpYear.locale = Locale(identifier: "ja_JP")
-        alarmSetJpYear.setTemplate(.year)
-        print(alarmSetJpYear.string(from: alarmSet!))
+            // DateFormatter のインスタンスを作成
+            let alarmSetJpYear = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpYear.locale = Locale(identifier: "ja_JP")
+            alarmSetJpYear.setTemplate(.year)
+            
+            let alarmSetJpMonth = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpMonth.locale = Locale(identifier: "ja_JP")
+            alarmSetJpMonth.setTemplate(.month)
+            
+            let alarmSetJpDay = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpDay.locale = Locale(identifier: "ja_JP")
+            alarmSetJpDay.setTemplate(.day)
+            
+            let alarmSetJpHour = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpHour.locale = Locale(identifier: "ja_JP")
+            alarmSetJpHour.setTemplate(.hour)
+            
+            let alarmSetJpMin = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpMin.locale = Locale(identifier: "ja_JP")
+            alarmSetJpMin.setTemplate(.min)
+            
+            notificationTime.year = Int(alarmSetJpYear.string(from: modifiedAlarmSet))
+            notificationTime.month = Int(alarmSetJpMonth.string(from: modifiedAlarmSet))
+            notificationTime.day = Int(alarmSetJpDay.string(from: modifiedAlarmSet))
+            notificationTime.hour = Int(alarmSetJpHour.string(from: modifiedAlarmSet))
+            notificationTime.minute = Int(alarmSetJpMin.string(from: modifiedAlarmSet))
+            
+            trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: true)
+            
+            // 通知内容の設定
+            if i == 0{
+                content.title = "起きる時間ですよ"
+                content.body = "アプリを開いて今日のおみくじ結果と天気を確認しよう-\(i)"
+            }else{
+                content.title = "アラームが設定されています"
+                content.body = "今日のおみくじ結果と天気を確認しよう-\(i)"
+            }
+           
         
-        let alarmSetJpMonth = DateFormatter()
-        // ロケールを日本（日本語）に設定
-        alarmSetJpMonth.locale = Locale(identifier: "ja_JP")
-        alarmSetJpMonth.setTemplate(.month)
-        print(alarmSetJpMonth.string(from: alarmSet!))
-        
-        let alarmSetJpDay = DateFormatter()
-        // ロケールを日本（日本語）に設定
-        alarmSetJpDay.locale = Locale(identifier: "ja_JP")
-        alarmSetJpDay.setTemplate(.day)
-        print(alarmSetJpDay.string(from: alarmSet!))
-        
-        let alarmSetJpHour = DateFormatter()
-        // ロケールを日本（日本語）に設定
-        alarmSetJpHour.locale = Locale(identifier: "ja_JP")
-        alarmSetJpHour.setTemplate(.hour)
-        print(alarmSetJpHour.string(from: alarmSet!))
-        
-        let alarmSetJpMin = DateFormatter()
-        // ロケールを日本（日本語）に設定
-        alarmSetJpMin.locale = Locale(identifier: "ja_JP")
-        alarmSetJpMin.setTemplate(.min)
-        print(alarmSetJpMin.string(from: alarmSet!))
-        
-        notificationTime.year = Int(alarmSetJpYear.string(from: alarmSet!))
-        notificationTime.month = Int(alarmSetJpMonth.string(from: alarmSet!))
-        notificationTime.day = Int(alarmSetJpDay.string(from: alarmSet!))
-        notificationTime.hour = Int(alarmSetJpHour.string(from: alarmSet!))
-        notificationTime.minute = Int(alarmSetJpMin.string(from: alarmSet!))
-        
-        print(notificationTime)
-        trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
-
-        // 通知内容の設定
-        content.title = "起きる時間ですよ"
-        content.body = "今日のおみくじ結果と天気を確認しよう"
-          
-
-        // 通知スタイルを指定
-        let request = UNNotificationRequest(identifier: "uuid", content: content, trigger: trigger)
-        // 通知をセット
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        
-        
+            // 通知スタイルを指定
+            let request = UNNotificationRequest(identifier: "identifier-\(i)", content: content, trigger: trigger)
+            // 通知をセット
+            
+            push = UNUserNotificationCenter.current()
+            push!.add(request, withCompletionHandler: nil)
+        }
         //------ローカルプッシュの設定↑
-        
-        
         
     
     }
     
     @IBAction func resetAction(_ sender: Any) {
-        
         
         let realm = try! Realm()
         let alarm = realm.objects(Alarm.self)
@@ -1346,13 +1433,27 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         if let aa = countDown{
             aa.invalidate()
         }
+        let center = UNUserNotificationCenter.current()
+        
+        print(center)
+        
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                
     }
-    
-    
     
     @objc func timer(){
         if (alarmHour == 0 && alarmMin == 0 && alarmSec == 0) {
             countTime.text = "終了"
+            //まずは、同じstororyboard内であることをここで定義します
+            let storyboard: UIStoryboard = self.storyboard!
+            //ここで移動先のstoryboardを選択(今回の場合は先ほどsecondと名付けたのでそれを書きます)
+            let second = storyboard.instantiateViewController(withIdentifier: "come")
+            //ここが実際に移動するコードとなります
+            second.modalPresentationStyle = .fullScreen
+            self.present(second, animated: true, completion: nil)
+            if let aa = countDown{
+                aa.invalidate()
+            }
         } else {
             if alarmSec > 0 {
                 //秒数が0以上の時秒数を-1
@@ -1372,6 +1473,24 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
             countTime.text = String(format: "%02d", alarmHour) + ":" + String(format: "%02d", alarmMin) + ":" + String(format: "%02d", alarmSec)
         }
+    }
+    
+    
+     
+    // 完全に全ての読み込みが完了時に実行
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
+    
+    @IBAction func lotteryReset(_ sender: Any) {
+        let realm = try! Realm()
+        let lottery = realm.objects(Lottery.self)
+        try! realm.write {
+            realm.delete(lottery)
+            
+        }
+        
     }
     
 

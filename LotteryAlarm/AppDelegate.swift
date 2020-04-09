@@ -14,8 +14,10 @@ import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
 
     var notificationGranted = true
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -47,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }}
         //許可を出すコード↑
         //フォアグランド状態でも通知が送られる
-        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().delegate = self        
         return true
     }
 
@@ -89,6 +91,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     completionHandler(UIBackgroundFetchResult.newData)
     }
     //メッセージを受け取っと時の反応↑
+    
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//    didReceive response: UNNotificationResponse,
+//    withCompletionHandler completionHandler: @escaping () -> Void) {
+//
+//            //　windowを生成
+//            self.window = UIWindow(frame: UIScreen.main.bounds)
+//            //　Storyboardを指定
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            // Viewcontrollerを指定
+//            let initialViewController = storyboard.instantiateViewController(withIdentifier: "come")
+//            // rootViewControllerに入れる
+//            self.window?.rootViewController = initialViewController
+//            // 表示
+//            self.window?.makeKeyAndVisible()
+//
+//        return
+//        print("プシュ通知から1")
+//        return
+//
+//
+//            completionHandler()
+//    }
     
     
 }

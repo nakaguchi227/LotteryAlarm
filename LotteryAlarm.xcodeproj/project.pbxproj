@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CF79A5FFB1653DF28D3E2043 /* Pods_LotteryAlarm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D1D4D07B66A7E0FA59BB8F3 /* Pods_LotteryAlarm.framework */; };
+		E3057469243DFFCA0010506B /* Lottery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3057468243DFFCA0010506B /* Lottery.swift */; };
+		E305746B243E069F0010506B /* LotterySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305746A243E069F0010506B /* LotterySet.swift */; };
 		E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3187E3F24361C3B006FA92D /* SelectedTime.swift */; };
 		E384984A2437852000CC9358 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E38498492437851F00CC9358 /* GoogleService-Info.plist */; };
 		E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384984D24378E5B00CC9358 /* TestViewController.swift */; };
@@ -27,6 +29,8 @@
 		5D1D4D07B66A7E0FA59BB8F3 /* Pods_LotteryAlarm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LotteryAlarm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D17A2196BF9114FAD22022E7 /* Pods-LotteryAlarm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotteryAlarm.release.xcconfig"; path = "Target Support Files/Pods-LotteryAlarm/Pods-LotteryAlarm.release.xcconfig"; sourceTree = "<group>"; };
 		E033755086297448E3D99FB2 /* Pods-LotteryAlarm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotteryAlarm.debug.xcconfig"; path = "Target Support Files/Pods-LotteryAlarm/Pods-LotteryAlarm.debug.xcconfig"; sourceTree = "<group>"; };
+		E3057468243DFFCA0010506B /* Lottery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lottery.swift; sourceTree = "<group>"; };
+		E305746A243E069F0010506B /* LotterySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotterySet.swift; sourceTree = "<group>"; };
 		E3187E3F24361C3B006FA92D /* SelectedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTime.swift; sourceTree = "<group>"; };
 		E38498492437851F00CC9358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E384984D24378E5B00CC9358 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 			children = (
 				E39369B1242A42DE008EC91F /* Alarm.swift */,
 				E3187E3F24361C3B006FA92D /* SelectedTime.swift */,
+				E3057468243DFFCA0010506B /* Lottery.swift */,
 			);
 			path = table;
 			sourceTree = "<group>";
@@ -126,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				E39369B4242E6E91008EC91F /* time.swift */,
+				E305746A243E069F0010506B /* LotterySet.swift */,
 			);
 			path = class;
 			sourceTree = "<group>";
@@ -249,6 +255,8 @@
 				E39369A1242A3FDA008EC91F /* SecondViewController.swift in Sources */,
 				E393699F242A3FDA008EC91F /* FirstViewController.swift in Sources */,
 				E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */,
+				E3057469243DFFCA0010506B /* Lottery.swift in Sources */,
+				E305746B243E069F0010506B /* LotterySet.swift in Sources */,
 				E39369B5242E6E92008EC91F /* time.swift in Sources */,
 				E39369B2242A42DE008EC91F /* Alarm.swift in Sources */,
 				E393699B242A3FDA008EC91F /* AppDelegate.swift in Sources */,
