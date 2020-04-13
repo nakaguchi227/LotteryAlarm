@@ -142,6 +142,15 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     var push:UNUserNotificationCenter?
     
+    
+    @IBOutlet weak var saveButton: UIButton!
+    
+    @IBOutlet weak var resetButton: UIButton!
+    
+    
+    @IBOutlet weak var snoozeButton: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -321,9 +330,8 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         onlyLabel.textColor = UIColor.gray
         self.view.addSubview(onlyLabel)
         
-        print("なにが起きてるの")
-        print(setTime)
         
+        countTime.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.7, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.1)
         if setTime == nil{
             alarmHour = 0
             alarmMin = 0
@@ -410,6 +418,22 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         //pickerの初期値
         timePickerView.selectRow(initialHour!, inComponent: 0, animated: true)
         timePickerView.selectRow(initialMin!, inComponent: 1, animated: true)
+        
+        //保存ボタンの設定
+        saveButton.setTitle("保　存", for: .normal)
+        saveButton.setTitleColor(UIColor.white, for: .normal)// タイトルの色
+        saveButton.backgroundColor = UIColor.mainGreen// ボタンの色
+        
+        saveButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.55, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.05)
+        
+        //リセットボタンの設定
+        resetButton.setTitleColor(UIColor.white, for: .normal)// タイトルの色
+        resetButton.backgroundColor = UIColor.mainYellow// ボタンの色
+        
+        resetButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.62, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
+        
+        snoozeButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.66, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
+        
         
         // Do any additional setup after loading the view.
     }
@@ -1244,9 +1268,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
                 settingDate = settingDateOne
             }
         }
-        print("確認用")
-        print(settingDate)
-        
+       
         let alarmResult = realm.objects(Alarm.self).first
         
         //alarmResults があれば上書きし、なければ新規作成
@@ -1494,6 +1516,19 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     override func viewDidAppear(_ animated: Bool) {
         
     }
+    
+    
+    
+    @IBAction func snoozeAction(_ sender: Any) {
+        //まずは、同じstororyboard内であることをここで定義します
+        let storyboard: UIStoryboard = self.storyboard!
+        //ここで移動先のstoryboardを選択(今回の場合は先ほどsecondと名付けたのでそれを書きます)
+        let second = storyboard.instantiateViewController(withIdentifier: "snooze")
+        //ここが実際に移動するコードとなります
+       
+        self.present(second, animated: true, completion: nil)
+    }
+    
     
     
     @IBAction func lotteryReset(_ sender: Any) {

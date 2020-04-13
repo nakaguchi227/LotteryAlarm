@@ -10,10 +10,18 @@ import UIKit
 import RealmSwift
 
 class ComeViewController: UIViewController {
+    
+    //端末のサイズを取得
+    let myBoundSize: CGSize = UIScreen.main.bounds.size
 
     var fade_timer = Timer()
    
     @IBOutlet weak var omikujiImage: UIImageView!
+    
+    @IBOutlet weak var stopButton: UIButton!
+    
+    @IBOutlet weak var snoozeButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +48,8 @@ class ComeViewController: UIViewController {
                 omikujiImage.image = UIImage(named: "omikuji_daikyou5")
             }
         }
+        omikujiImage.center = CGPoint(x: myBoundSize.width * 0.25, y: myBoundSize.height * 0.6)
+        
         //アニメーションの設定
         /* ラベルを透明にする */
         omikujiImage.alpha = 0.0
@@ -52,7 +62,29 @@ class ComeViewController: UIViewController {
                             repeats: true
                         )
         
-        print("時間がきた")
+        //停止ボタンの設定
+        stopButton.setTitle("停　止", for: .normal)
+        stopButton.setTitleColor(UIColor.white, for: .normal)// タイトルの色
+        stopButton.backgroundColor = UIColor.mainGreen// ボタンの色
+        
+        stopButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.15, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.15)
+        
+        //スヌーズボタンの設定
+        snoozeButton.setTitle("スヌーズ", for: .normal)
+        snoozeButton.backgroundColor = UIColor.mainYellow// ボタンの色
+        snoozeButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.32, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.05)
+        
+        let snoozeSet = realm.objects(SelectedSnooze.self).first
+        if let snooze = snoozeSet{
+            if snooze.snooze == 0{
+                snoozeButton.isHidden = true
+            }
+        }else{
+            snoozeButton.isHidden = true
+        }
+        
+        
+        
         
         // Do any additional setup after loading the view.
     }
@@ -561,9 +593,6 @@ class ComeViewController: UIViewController {
                                      }}}}}}}}
               print("日だ")
           }
-         
-          print(settingDate)
-        
         
         
          if alarmSet == nil{
@@ -578,6 +607,7 @@ class ComeViewController: UIViewController {
             }
         }
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
         
          //------ローカルプッシュの設定↓
         if alarmSet != nil{
@@ -630,10 +660,10 @@ class ComeViewController: UIViewController {
                 // 通知内容の設定
                 if i == 0{
                    content.title = "起きる時間ですよ"
-                   content.body = "アプリを開いて今日のおみくじ結果と天気を確認しよう-\(i)"
+                   content.body = "アプリを開いて今日のおみくじ結果と天気を確認しよう"
                }else{
                    content.title = "アラームが設定されています"
-                   content.body = "今日のおみくじ結果と天気を確認しよう-\(i)"
+                   content.body = "今日のおみくじ結果と天気を確認しよう"
                }
                switch LotteryNo{
                case 1:
@@ -667,6 +697,100 @@ class ComeViewController: UIViewController {
         second.modalPresentationStyle = .fullScreen
         self.present(second, animated: true, completion: nil)
     }
+    
+    @IBAction func snoozeAction(_ sender: Any) {
+        
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
+        //------ローカルプッシュの設定↓
+        let LotteryNo = LotterySet.LotteryNo(settingDate:Date())
+        let realm = try! Realm()
+        let selectedSnooze = realm.objects(SelectedSnooze.self).first
+        
+        var snooze:Int
+        
+        if let snoozeTime = selectedSnooze{
+            snooze = snoozeTime.snooze
+        }else{
+            snooze = 3
+        }
+        
+        for i in 0...60 {
+            //　通知設定に必要なクラスをインスタンス化
+            let trigger: UNNotificationTrigger
+            let content = UNMutableNotificationContent()
+            var notificationTime = DateComponents()
+            
+            let time = i + snooze
+               
+            let modifiedAlarmSet = Calendar.current.date(byAdding: .minute, value: time, to: Date())!
+              
+            // DateFormatter のインスタンスを作成
+            let alarmSetJpYear = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpYear.locale = Locale(identifier: "ja_JP")
+            alarmSetJpYear.setTemplate(.year)
+               
+            let alarmSetJpMonth = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpMonth.locale = Locale(identifier: "ja_JP")
+            alarmSetJpMonth.setTemplate(.month)
+               
+            let alarmSetJpDay = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpDay.locale = Locale(identifier: "ja_JP")
+            alarmSetJpDay.setTemplate(.day)
+               
+            let alarmSetJpHour = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpHour.locale = Locale(identifier: "ja_JP")
+            alarmSetJpHour.setTemplate(.hour)
+               
+            let alarmSetJpMin = DateFormatter()
+            // ロケールを日本（日本語）に設定
+            alarmSetJpMin.locale = Locale(identifier: "ja_JP")
+            alarmSetJpMin.setTemplate(.min)
+               
+            notificationTime.year = Int(alarmSetJpYear.string(from: modifiedAlarmSet))
+            notificationTime.month = Int(alarmSetJpMonth.string(from: modifiedAlarmSet))
+            notificationTime.day = Int(alarmSetJpDay.string(from: modifiedAlarmSet))
+            notificationTime.hour = Int(alarmSetJpHour.string(from: modifiedAlarmSet))
+            notificationTime.minute = Int(alarmSetJpMin.string(from: modifiedAlarmSet))
+               
+            print(notificationTime)
+               
+            trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: true)
+               
+            // 通知内容の設定
+            // 通知内容の設定
+            if i == 0{
+                content.title = "スヌーズです"
+                content.body = "アプリを開いて今日のおみくじ結果と天気を確認しよう"
+            }else{
+                content.title = "スヌーズが設定されています"
+                content.body = "今日のおみくじ結果と天気を確認しよう"
+            }
+            switch LotteryNo{
+            case 1:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "oneMusic.mp3"))
+            case 2:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "twoMusic.mp3"))
+            case 3:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "threeMusic.mp3"))
+            case 4:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "fourMusic.mp3"))
+            default:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "fiveMusic.mp3"))
+            }
+            // 通知スタイルを指定
+            let request = UNNotificationRequest(identifier: "identifier-\(i)", content: content, trigger: trigger)
+            // 通知をセット
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+       //------ローカルプッシュの設定↑
+        }
+    
+    }
+    
     
     
 

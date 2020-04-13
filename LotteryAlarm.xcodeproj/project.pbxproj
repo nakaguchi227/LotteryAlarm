@@ -17,6 +17,11 @@
 		E3057476243F1EE30010506B /* fourMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3057475243F1EE30010506B /* fourMusic.mp3 */; };
 		E30574782440C3B20010506B /* CarendarArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30574772440C3B20010506B /* CarendarArray.swift */; };
 		E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3187E3F24361C3B006FA92D /* SelectedTime.swift */; };
+		E32B21C22442E13E007D97FA /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B21C12442E13E007D97FA /* Color.swift */; };
+		E32B21C62442F0B3007D97FA /* SnoozeSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B21C52442F0B3007D97FA /* SnoozeSetViewController.swift */; };
+		E32B21C92443414F007D97FA /* SelectedSnooze.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B21C82443414F007D97FA /* SelectedSnooze.swift */; };
+		E32B21CB24449717007D97FA /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B21CA24449717007D97FA /* CustomTableViewCell.swift */; };
+		E32B21CF2444B658007D97FA /* Wacthed.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B21CE2444B658007D97FA /* Wacthed.swift */; };
 		E384984A2437852000CC9358 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E38498492437851F00CC9358 /* GoogleService-Info.plist */; };
 		E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384984D24378E5B00CC9358 /* TestViewController.swift */; };
 		E38498532439F1B500CC9358 /* ComeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38498522439F1B500CC9358 /* ComeViewController.swift */; };
@@ -44,6 +49,11 @@
 		E3057475243F1EE30010506B /* fourMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fourMusic.mp3; sourceTree = "<group>"; };
 		E30574772440C3B20010506B /* CarendarArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarendarArray.swift; sourceTree = "<group>"; };
 		E3187E3F24361C3B006FA92D /* SelectedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTime.swift; sourceTree = "<group>"; };
+		E32B21C12442E13E007D97FA /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		E32B21C52442F0B3007D97FA /* SnoozeSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeSetViewController.swift; sourceTree = "<group>"; };
+		E32B21C82443414F007D97FA /* SelectedSnooze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSnooze.swift; sourceTree = "<group>"; };
+		E32B21CA24449717007D97FA /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		E32B21CE2444B658007D97FA /* Wacthed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wacthed.swift; sourceTree = "<group>"; };
 		E38498492437851F00CC9358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E384984D24378E5B00CC9358 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		E384984F2438D49100CC9358 /* LotteryAlarm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LotteryAlarm.entitlements; sourceTree = "<group>"; };
@@ -138,6 +148,7 @@
 				E39369AA242A3FDE008EC91F /* Info.plist */,
 				E384984D24378E5B00CC9358 /* TestViewController.swift */,
 				E38498522439F1B500CC9358 /* ComeViewController.swift */,
+				E32B21C52442F0B3007D97FA /* SnoozeSetViewController.swift */,
 			);
 			path = LotteryAlarm;
 			sourceTree = "<group>";
@@ -148,6 +159,8 @@
 				E39369B1242A42DE008EC91F /* Alarm.swift */,
 				E3187E3F24361C3B006FA92D /* SelectedTime.swift */,
 				E3057468243DFFCA0010506B /* Lottery.swift */,
+				E32B21C82443414F007D97FA /* SelectedSnooze.swift */,
+				E32B21CE2444B658007D97FA /* Wacthed.swift */,
 			);
 			path = table;
 			sourceTree = "<group>";
@@ -158,6 +171,8 @@
 				E39369B4242E6E91008EC91F /* time.swift */,
 				E305746A243E069F0010506B /* LotterySet.swift */,
 				E30574772440C3B20010506B /* CarendarArray.swift */,
+				E32B21C12442E13E007D97FA /* Color.swift */,
+				E32B21CA24449717007D97FA /* CustomTableViewCell.swift */,
 			);
 			path = class;
 			sourceTree = "<group>";
@@ -284,9 +299,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E39369A1242A3FDA008EC91F /* SecondViewController.swift in Sources */,
+				E32B21CF2444B658007D97FA /* Wacthed.swift in Sources */,
 				E393699F242A3FDA008EC91F /* FirstViewController.swift in Sources */,
+				E32B21CB24449717007D97FA /* CustomTableViewCell.swift in Sources */,
 				E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */,
 				E3057469243DFFCA0010506B /* Lottery.swift in Sources */,
+				E32B21C22442E13E007D97FA /* Color.swift in Sources */,
+				E32B21C62442F0B3007D97FA /* SnoozeSetViewController.swift in Sources */,
+				E32B21C92443414F007D97FA /* SelectedSnooze.swift in Sources */,
 				E305746B243E069F0010506B /* LotterySet.swift in Sources */,
 				E39369B5242E6E92008EC91F /* time.swift in Sources */,
 				E39369B2242A42DE008EC91F /* Alarm.swift in Sources */,
