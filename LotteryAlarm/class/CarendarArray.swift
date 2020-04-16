@@ -26,6 +26,9 @@ class CarendarArray{
             if $0.lotteryDate > todayStart{
                 return
             }
+            if $0.wacthed == 0{
+                return
+            }
             
             // DateFormatter のインスタンスを作成
             let alarmSetJpYear = DateFormatter()

@@ -11,6 +11,7 @@ import Firebase
 import FirebaseMessaging
 import UserNotifications
 import Firebase
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -49,7 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }}
         //許可を出すコード↑
         //フォアグランド状態でも通知が送られる
-        UNUserNotificationCenter.current().delegate = self        
+        UNUserNotificationCenter.current().delegate = self
+        
         return true
     }
 

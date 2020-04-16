@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import CoreLocation
 
-class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate {
     
     // UIImage のインスタンスを設定
     let check = UIImage(named:"check")!
@@ -150,10 +151,14 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     @IBOutlet weak var snoozeButton: UIButton!
     
+    //位置情報を取得する
+    var locationManager: CLLocationManager!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupLocationManager()
         
         print(Realm.Configuration.defaultConfiguration.fileURL!)
         
@@ -432,7 +437,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
         resetButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.62, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
         
-        snoozeButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.66, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
+        snoozeButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.78, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
         
         
         // Do any additional setup after loading the view.
@@ -1540,6 +1545,15 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         }
         
     }
+    
+    func setupLocationManager() {
+        locationManager = CLLocationManager()
+        guard let locationManager = locationManager else { return }
+
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    
     
 
 }

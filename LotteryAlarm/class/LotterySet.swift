@@ -57,6 +57,7 @@ class LotterySet{
             let lotteryData = Lottery()
             lotteryData.id = id!
             lotteryData.lottery = lotteryNo!
+            lotteryData.wacthed = 0
             lotteryData.lotteryDate = setDayStart
             
             try! realm.write {

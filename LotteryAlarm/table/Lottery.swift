@@ -13,6 +13,7 @@ import RealmSwift
 class Lottery: Object {
     @objc dynamic var id = 0
     @objc dynamic var lottery = 0
+    @objc dynamic var wacthed = 0
     @objc dynamic var lotteryDate = Date()
         
     // IDをプライマリキーにする

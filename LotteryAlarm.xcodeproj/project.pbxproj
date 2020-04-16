@@ -22,6 +22,8 @@
 		E32B21C92443414F007D97FA /* SelectedSnooze.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B21C82443414F007D97FA /* SelectedSnooze.swift */; };
 		E32B21CB24449717007D97FA /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B21CA24449717007D97FA /* CustomTableViewCell.swift */; };
 		E32B21CF2444B658007D97FA /* Wacthed.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B21CE2444B658007D97FA /* Wacthed.swift */; };
+		E33EE20C2445F75D00EBE003 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33EE20B2445F75D00EBE003 /* CoreLocation.framework */; };
+		E33EE20E244619CF00EBE003 /* MyLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33EE20D244619CF00EBE003 /* MyLocation.swift */; };
 		E384984A2437852000CC9358 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E38498492437851F00CC9358 /* GoogleService-Info.plist */; };
 		E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384984D24378E5B00CC9358 /* TestViewController.swift */; };
 		E38498532439F1B500CC9358 /* ComeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38498522439F1B500CC9358 /* ComeViewController.swift */; };
@@ -54,6 +56,8 @@
 		E32B21C82443414F007D97FA /* SelectedSnooze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSnooze.swift; sourceTree = "<group>"; };
 		E32B21CA24449717007D97FA /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		E32B21CE2444B658007D97FA /* Wacthed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wacthed.swift; sourceTree = "<group>"; };
+		E33EE20B2445F75D00EBE003 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E33EE20D244619CF00EBE003 /* MyLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLocation.swift; sourceTree = "<group>"; };
 		E38498492437851F00CC9358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E384984D24378E5B00CC9358 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		E384984F2438D49100CC9358 /* LotteryAlarm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LotteryAlarm.entitlements; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E33EE20C2445F75D00EBE003 /* CoreLocation.framework in Frameworks */,
 				CF79A5FFB1653DF28D3E2043 /* Pods_LotteryAlarm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +100,7 @@
 		9CEEC4E0902CCA2360200603 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E33EE20B2445F75D00EBE003 /* CoreLocation.framework */,
 				5D1D4D07B66A7E0FA59BB8F3 /* Pods_LotteryAlarm.framework */,
 			);
 			name = Frameworks;
@@ -173,6 +179,7 @@
 				E30574772440C3B20010506B /* CarendarArray.swift */,
 				E32B21C12442E13E007D97FA /* Color.swift */,
 				E32B21CA24449717007D97FA /* CustomTableViewCell.swift */,
+				E33EE20D244619CF00EBE003 /* MyLocation.swift */,
 			);
 			path = class;
 			sourceTree = "<group>";
@@ -312,6 +319,7 @@
 				E39369B2242A42DE008EC91F /* Alarm.swift in Sources */,
 				E393699B242A3FDA008EC91F /* AppDelegate.swift in Sources */,
 				E393699D242A3FDA008EC91F /* SceneDelegate.swift in Sources */,
+				E33EE20E244619CF00EBE003 /* MyLocation.swift in Sources */,
 				E30574782440C3B20010506B /* CarendarArray.swift in Sources */,
 				E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */,
 				E38498532439F1B500CC9358 /* ComeViewController.swift in Sources */,

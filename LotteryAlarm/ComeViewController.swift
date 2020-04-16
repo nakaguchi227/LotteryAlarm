@@ -8,8 +8,11 @@
 
 import UIKit
 import RealmSwift
+import CoreLocation
+import Alamofire
+import SwiftyJSON
 
-class ComeViewController: UIViewController {
+class ComeViewController: UIViewController, CLLocationManagerDelegate {
     
     //端末のサイズを取得
     let myBoundSize: CGSize = UIScreen.main.bounds.size
@@ -22,9 +25,58 @@ class ComeViewController: UIViewController {
     
     @IBOutlet weak var snoozeButton: UIButton!
     
+    var locationManager = CLLocationManager()
+    
+    
+    @IBOutlet weak var conditionImageView: UIImageView!
+    
+    @IBOutlet weak var temperatureLabel: UILabel!
+    
+    @IBOutlet weak var maxTempLabel: UILabel!
+    
+    @IBOutlet weak var minTempLabel: UILabel!
+    
+    
+    @IBOutlet weak var offLabel: UILabel!
+    
+    @IBOutlet weak var offView: UIImageView!
+    
+  
+    
+    
+    let apiKey = "2ce4a1fedd40fd6894cc7da923a14180"
+    var lat = 26.8205
+    var lon = 30.8024
+
+    
+    
+    let geocoder = CLGeocoder()
+    
+    var idoData:Double?
+    var keidoData:Double?
+    
+    func setupLocationManager() {
+        locationManager = CLLocationManager()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // ロケーションマネージャのセットアップ
+        setupLocationManager()
+        
+        disabledLocationLabel()
+      
+        // use popup to check and get location
+        locationManager.requestWhenInUseAuthorization()
+        if (CLLocationManager.locationServicesEnabled()) {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
+        
+        
+        
         
         // テンプレートから時刻を表示
         let today = Date()
@@ -50,6 +102,24 @@ class ComeViewController: UIViewController {
         }
         omikujiImage.center = CGPoint(x: myBoundSize.width * 0.25, y: myBoundSize.height * 0.6)
         
+        conditionImageView.frame = CGRect(x: myBoundSize.width * 0.55, y: myBoundSize.height * 0.45, width: 100, height: 100)
+        offView.frame = CGRect(x: myBoundSize.width * 0.55, y: myBoundSize.height * 0.45, width: 100, height: 100)
+        offLabel.frame = CGRect(x: myBoundSize.width * 0.42, y: myBoundSize.height * 0.6, width: myBoundSize.width * 0.5, height: 100)
+        
+        temperatureLabel.frame = CGRect(x: myBoundSize.width * 0.42, y: myBoundSize.height * 0.58, width: myBoundSize.width * 0.5, height: 100)
+        
+        maxTempLabel.frame = CGRect(x: myBoundSize.width * 0.42, y: myBoundSize.height * 0.64, width: myBoundSize.width * 0.5, height: 100)
+        
+        minTempLabel.frame = CGRect(x: myBoundSize.width * 0.42, y: myBoundSize.height * 0.7, width: myBoundSize.width * 0.5, height: 100)
+        
+        
+        if let wacthed = todayData{
+            try! realm.write {
+                wacthed.wacthed = 1
+            }
+        }
+        
+        
         //アニメーションの設定
         /* ラベルを透明にする */
         omikujiImage.alpha = 0.0
@@ -74,6 +144,9 @@ class ComeViewController: UIViewController {
         snoozeButton.backgroundColor = UIColor.mainYellow// ボタンの色
         snoozeButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.32, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.05)
         
+        
+        
+        
         let snoozeSet = realm.objects(SelectedSnooze.self).first
         if let snooze = snoozeSet{
             if snooze.snooze == 0{
@@ -83,8 +156,23 @@ class ComeViewController: UIViewController {
             snoozeButton.isHidden = true
         }
         
+       
+        print(idoData)
+        print(keidoData)
         
-        
+        let myLocation = MyLocation()
+        myLocation.reverseGeocode(lat: 35.653948476390205, lon: 139.73154725662124) { (placemarks) in
+            if let data = placemarks.first {
+                print(data.country)  //国
+                print(data.administrativeArea) //都道府県
+                print(data.subAdministrativeArea) //郡部
+                print(data.locality) //市区町村
+                print(data.subLocality) //町名、字
+                print(data.thoroughfare) //町名 + 丁目、番
+                print(data.subThoroughfare) //番地 + 号
+                print(data.postalCode) //番地 + 号
+            }
+        }
         
         // Do any additional setup after loading the view.
     }
@@ -791,6 +879,151 @@ class ComeViewController: UIViewController {
     
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status{
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+        case .notDetermined:
+            locationManager.stopUpdatingLocation()
+            disabledLocationLabel()
+        default:
+            locationManager.stopUpdatingLocation()
+            disabledLocationLabel()
+        }
+    }
+    
+    func disabledLocationLabel(){
+        
+//        temperatureLabel.isHidden = true
+//        maxTempLabel.isHidden = true
+//        minTempLabel.isHidden = true
+    }
+    
+    
+    
+    
+//    var b:String?
+//
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        let locationData = locations.last
+//
+//
+//        if var ido = locationData?.coordinate.latitude{
+//            ido = round(ido*1000000)/1000000
+//            idoLabel.text = String(ido)
+//            idoData = ido
+//        }
+//        print(idoData)
+//
+//        if var keido = locationData?.coordinate.longitude{
+//            keido = round(keido*1000000)/1000000
+//            keidoLabel.text = String(keido)
+//            keidoData = keido
+//        }
+//
+//        AF.request("http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric").responseJSON {
+//
+//            response in
+//
+//
+//            if let responseStr = response.value {
+//                let jsonResponse = JSON(responseStr)
+//                let jsonWeather = jsonResponse["weather"].array![0]
+//                let jsonTemp = jsonResponse["main"]
+//                let iconName = jsonWeather["icon"].stringValue
+//
+////                self.locationLabel.text = jsonResponse["name"].stringValue
+//                self.conditionImageView.image = UIImage(named: iconName)
+////                self.conditionLabel.text = jsonWeather["main"].stringValue
+//                self.temperatureLabel.text = "\(Int(round(jsonTemp["temp"].doubleValue)))"
+//            }
+//        }
+//
+//        //表示更新
+//        if let location = locations.first {
+//            //緯度・経度
+//            idoLabel.text = location.coordinate.latitude.description
+//            keidoLabel.text = location.coordinate.longitude.description
+//
+//            //逆ジオコーディング
+//            geocoder.reverseGeocodeLocation( location, completionHandler: { ( placemarks, error ) in
+//                if let placemark = placemarks?.first {
+//                    //位置情報
+//                    self.postal.text = placemark.postalCode
+//
+//                }
+//            } )
+//        }
+//
+//    }
+    
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations[0]
+        print(location)
+        lat = location.coordinate.latitude
+        lon = location.coordinate.longitude
+        
+        offLabel.isHidden = true
+        offView.isHidden = true
+        
+        print(lat)
+        print(lon)
+
+        AF.request("http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric").responseJSON {
+
+            response in
+          
+            if let responseStr = response.value {
+            
+                let jsonResponse = JSON(responseStr)
+                let jsonWeather = jsonResponse["weather"].array![0]
+                let jsonTemp = jsonResponse["main"]
+                let iconName = jsonWeather["icon"].stringValue
+
+//                self.locationLabel.text = jsonResponse["name"].stringValue
+                
+//                self.conditionLabel.text = jsonWeather["main"].stringValue
+                self.temperatureLabel.text = "現在気温：" +  "\(Int(round(jsonTemp["temp"].doubleValue)))" + "℃"
+                
+                
+                self.maxTempLabel.text = "最高気温：" +  "\(Int(round(jsonTemp["temp_max"].doubleValue)))" + "℃"
+                self.minTempLabel.text = "最低気温：" +  "\(Int(round(jsonTemp["temp_min"].doubleValue)))" + "℃"
+                
+                print(jsonWeather["id"])
+                
+                if [803,804].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "broken clouds")
+                }else if [200,201,202,210,211,212,221,230,231,232].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "thunderstorm")
+                }else if [300,301,302,310,311,312,313,314,321,520,521,522,531].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "shower rain")
+                }else if [500,501,502,503,504].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "rain")
+                }else if [511,600,601,602,611,612,613,615,616,620,621,622].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "snow")
+                }else if [701,711,721,731,741,751,761,762,771,781].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "mist")
+                }else if [800].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "clear sky")
+                }else if [801].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "few clouds")
+                }else{
+                    self.conditionImageView.image = UIImage(named: "hatena")
+                }
+                
+            }else{
+               self.maxTempLabel.text = "位置情報が設定されていません"
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
     
     
 
@@ -805,3 +1038,6 @@ class ComeViewController: UIViewController {
     */
 
 }
+
+
+

@@ -74,5 +74,20 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>位置情報より天気を取得いたします</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>api.openweathermap.org</key>
+			<dict>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

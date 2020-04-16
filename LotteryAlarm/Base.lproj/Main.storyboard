@@ -201,19 +201,61 @@
                                     <action selector="close:" destination="Hri-LS-iYp" eventType="touchUpInside" id="xNk-Pd-sFm"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="woY-tF-mI4">
+                                <rect key="frame" x="216" y="410" width="105" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M5W-QN-sTK">
+                                <rect key="frame" x="218" y="550" width="154" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P8S-qS-ubF">
+                                <rect key="frame" x="249" y="601" width="72" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ydc-00-W4r">
+                                <rect key="frame" x="231" y="646" width="105" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hatena" translatesAutoresizingMaskIntoConstraints="NO" id="nrw-xs-5qO">
+                                <rect key="frame" x="218" y="335" width="103" height="67"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="天気を取得するには 位置情報をONにしてください" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UNj-kj-j0g">
+                                <rect key="frame" x="170" y="534" width="236" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="d0B-DN-Eyn"/>
                     </view>
                     <connections>
+                        <outlet property="conditionImageView" destination="woY-tF-mI4" id="y5i-mu-ydk"/>
+                        <outlet property="maxTempLabel" destination="P8S-qS-ubF" id="bXy-Qk-Ei3"/>
+                        <outlet property="minTempLabel" destination="Ydc-00-W4r" id="XTs-ut-TYz"/>
+                        <outlet property="offLabel" destination="UNj-kj-j0g" id="eyf-du-HKP"/>
+                        <outlet property="offView" destination="nrw-xs-5qO" id="FPp-aA-ocy"/>
                         <outlet property="omikujiImage" destination="wMQ-zD-Bhc" id="7n2-Xt-BI5"/>
                         <outlet property="snoozeButton" destination="Eqx-Th-FPM" id="mPN-QA-k1K"/>
                         <outlet property="stopButton" destination="B2C-Se-t1e" id="cPy-Al-lJd"/>
+                        <outlet property="temperatureLabel" destination="M5W-QN-sTK" id="b7m-Kj-PyE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g0S-0j-I8l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2472" y="-305"/>
+            <point key="canvasLocation" x="2471.0144927536235" y="-305.35714285714283"/>
         </scene>
         <!--Snooze Set View Controller-->
         <scene sceneID="BdU-P1-A85">
@@ -287,7 +329,7 @@
             </objects>
             <point key="canvasLocation" x="3321.739130434783" y="-305.35714285714283"/>
         </scene>
-        <!--Second-->
+        <!--calendar-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="LotteryAlarm" customModuleProvider="target" sceneMemberID="viewController">
@@ -309,7 +351,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="calendar" image="calendar" catalog="system" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="calendar" destination="0ih-QH-dGu" id="XJ7-ZN-AW1"/>
                     </connections>
@@ -379,11 +421,11 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-        <!--First-->
+        <!--alarm-->
         <scene sceneID="Rju-lg-rcM">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FyG-qX-Yb4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="alarm" image="alarm" catalog="system" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6Oc-Wu-RdM">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -400,7 +442,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="alarm" catalog="system" width="124" height="128"/>
+        <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="hatena" width="64" height="64"/>
     </resources>
 </document>
