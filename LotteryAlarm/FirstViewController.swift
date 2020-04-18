@@ -1403,7 +1403,20 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
                 content.title = "アラームが設定されています"
                 content.body = "今日のおみくじ結果と天気を確認しよう-\(i)"
             }
-           
+            switch LotteryNo{
+            case 1:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "oneMusic.mp3"))
+            case 2:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "twoMusic.mp3"))
+            case 3:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "threeMusic.mp3"))
+            case 4:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "fourMusic.mp3"))
+            default:
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "fiveMusic.mp3"))
+            }
+            
+            
         
             // 通知スタイルを指定
             let request = UNNotificationRequest(identifier: "identifier-\(i)", content: content, trigger: trigger)

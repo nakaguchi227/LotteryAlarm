@@ -10,6 +10,12 @@
 		CF79A5FFB1653DF28D3E2043 /* Pods_LotteryAlarm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D1D4D07B66A7E0FA59BB8F3 /* Pods_LotteryAlarm.framework */; };
 		E3057469243DFFCA0010506B /* Lottery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3057468243DFFCA0010506B /* Lottery.swift */; };
 		E305746B243E069F0010506B /* LotterySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305746A243E069F0010506B /* LotterySet.swift */; };
+		E305746E243F14B20010506B /* fiveMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E305746D243F14B20010506B /* fiveMusic.mp3 */; };
+		E3057470243F1EC80010506B /* oneMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E305746F243F1EC70010506B /* oneMusic.mp3 */; };
+		E3057472243F1ED30010506B /* twoMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3057471243F1ED30010506B /* twoMusic.mp3 */; };
+		E3057474243F1EDA0010506B /* threeMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3057473243F1EDA0010506B /* threeMusic.mp3 */; };
+		E3057476243F1EE30010506B /* fourMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3057475243F1EE30010506B /* fourMusic.mp3 */; };
+		E30574782440C3B20010506B /* CarendarArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30574772440C3B20010506B /* CarendarArray.swift */; };
 		E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3187E3F24361C3B006FA92D /* SelectedTime.swift */; };
 		E384984A2437852000CC9358 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E38498492437851F00CC9358 /* GoogleService-Info.plist */; };
 		E384984E24378E5B00CC9358 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384984D24378E5B00CC9358 /* TestViewController.swift */; };
@@ -31,6 +37,12 @@
 		E033755086297448E3D99FB2 /* Pods-LotteryAlarm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LotteryAlarm.debug.xcconfig"; path = "Target Support Files/Pods-LotteryAlarm/Pods-LotteryAlarm.debug.xcconfig"; sourceTree = "<group>"; };
 		E3057468243DFFCA0010506B /* Lottery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lottery.swift; sourceTree = "<group>"; };
 		E305746A243E069F0010506B /* LotterySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotterySet.swift; sourceTree = "<group>"; };
+		E305746D243F14B20010506B /* fiveMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fiveMusic.mp3; sourceTree = "<group>"; };
+		E305746F243F1EC70010506B /* oneMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = oneMusic.mp3; sourceTree = "<group>"; };
+		E3057471243F1ED30010506B /* twoMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = twoMusic.mp3; path = "../../../音楽/twoMusic.mp3"; sourceTree = "<group>"; };
+		E3057473243F1EDA0010506B /* threeMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = threeMusic.mp3; path = "../../../音楽/threeMusic.mp3"; sourceTree = "<group>"; };
+		E3057475243F1EE30010506B /* fourMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fourMusic.mp3; sourceTree = "<group>"; };
+		E30574772440C3B20010506B /* CarendarArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarendarArray.swift; sourceTree = "<group>"; };
 		E3187E3F24361C3B006FA92D /* SelectedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTime.swift; sourceTree = "<group>"; };
 		E38498492437851F00CC9358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E384984D24378E5B00CC9358 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +90,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E305746C243F13E60010506B /* music */ = {
+			isa = PBXGroup;
+			children = (
+				E305746D243F14B20010506B /* fiveMusic.mp3 */,
+				E305746F243F1EC70010506B /* oneMusic.mp3 */,
+				E3057471243F1ED30010506B /* twoMusic.mp3 */,
+				E3057473243F1EDA0010506B /* threeMusic.mp3 */,
+				E3057475243F1EE30010506B /* fourMusic.mp3 */,
+			);
+			path = music;
+			sourceTree = "<group>";
+		};
 		E393698E242A3FDA008EC91F = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +123,7 @@
 		E3936999242A3FDA008EC91F /* LotteryAlarm */ = {
 			isa = PBXGroup;
 			children = (
+				E305746C243F13E60010506B /* music */,
 				E384984F2438D49100CC9358 /* LotteryAlarm.entitlements */,
 				E39369B3242E6E3D008EC91F /* class */,
 				E39369B0242A42C1008EC91F /* table */,
@@ -132,6 +157,7 @@
 			children = (
 				E39369B4242E6E91008EC91F /* time.swift */,
 				E305746A243E069F0010506B /* LotterySet.swift */,
+				E30574772440C3B20010506B /* CarendarArray.swift */,
 			);
 			path = class;
 			sourceTree = "<group>";
@@ -196,10 +222,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E305746E243F14B20010506B /* fiveMusic.mp3 in Resources */,
 				E39369A9242A3FDE008EC91F /* LaunchScreen.storyboard in Resources */,
 				E384984A2437852000CC9358 /* GoogleService-Info.plist in Resources */,
+				E3057472243F1ED30010506B /* twoMusic.mp3 in Resources */,
 				E39369A6242A3FDE008EC91F /* Assets.xcassets in Resources */,
+				E3057474243F1EDA0010506B /* threeMusic.mp3 in Resources */,
 				E39369A4242A3FDA008EC91F /* Main.storyboard in Resources */,
+				E3057470243F1EC80010506B /* oneMusic.mp3 in Resources */,
+				E3057476243F1EE30010506B /* fourMusic.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +292,7 @@
 				E39369B2242A42DE008EC91F /* Alarm.swift in Sources */,
 				E393699B242A3FDA008EC91F /* AppDelegate.swift in Sources */,
 				E393699D242A3FDA008EC91F /* SceneDelegate.swift in Sources */,
+				E30574782440C3B20010506B /* CarendarArray.swift in Sources */,
 				E3187E4024361C3B006FA92D /* SelectedTime.swift in Sources */,
 				E38498532439F1B500CC9358 /* ComeViewController.swift in Sources */,
 			);
