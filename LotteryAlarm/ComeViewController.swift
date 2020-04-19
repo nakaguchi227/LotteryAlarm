@@ -11,8 +11,11 @@ import RealmSwift
 import CoreLocation
 import Alamofire
 import SwiftyJSON
+import GoogleMobileAds
 
-class ComeViewController: UIViewController, CLLocationManagerDelegate {
+class ComeViewController: UIViewController, CLLocationManagerDelegate, GADBannerViewDelegate {
+    
+    var bannerView: GADBannerView!
     
     //端末のサイズを取得
     let myBoundSize: CGSize = UIScreen.main.bounds.size
@@ -163,16 +166,18 @@ class ComeViewController: UIViewController, CLLocationManagerDelegate {
         let myLocation = MyLocation()
         myLocation.reverseGeocode(lat: 35.653948476390205, lon: 139.73154725662124) { (placemarks) in
             if let data = placemarks.first {
-                print(data.country)  //国
-                print(data.administrativeArea) //都道府県
-                print(data.subAdministrativeArea) //郡部
-                print(data.locality) //市区町村
-                print(data.subLocality) //町名、字
-                print(data.thoroughfare) //町名 + 丁目、番
-                print(data.subThoroughfare) //番地 + 号
-                print(data.postalCode) //番地 + 号
             }
         }
+        
+        // In this case, we instantiate the banner with desired ad size.
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+
+        addBannerViewToView(bannerView)
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
+        
         
         // Do any additional setup after loading the view.
     }
@@ -1009,6 +1014,8 @@ class ComeViewController: UIViewController, CLLocationManagerDelegate {
                     self.conditionImageView.image = UIImage(named: "clear sky")
                 }else if [801].contains(jsonWeather["id"]){
                     self.conditionImageView.image = UIImage(named: "few clouds")
+                }else if [802].contains(jsonWeather["id"]){
+                    self.conditionImageView.image = UIImage(named: "scattered clouds")
                 }else{
                     self.conditionImageView.image = UIImage(named: "hatena")
                 }
@@ -1019,23 +1026,27 @@ class ComeViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+     bannerView.translatesAutoresizingMaskIntoConstraints = false
+     view.addSubview(bannerView)
+     view.addConstraints(
+       [NSLayoutConstraint(item: bannerView,
+                           attribute: .bottom,
+                           relatedBy: .equal,
+                           toItem: bottomLayoutGuide,
+                           attribute: .top,
+                           multiplier: 1,
+                           constant: 0),
+        NSLayoutConstraint(item: bannerView,
+                           attribute: .centerX,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .centerX,
+                           multiplier: 1,
+                           constant: 0)
+       ])
     }
-    */
+  
 
 }
 

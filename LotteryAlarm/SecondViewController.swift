@@ -10,10 +10,13 @@ import UIKit
 import RealmSwift
 import FSCalendar
 import CalculateCalendarLogic
+import GoogleMobileAds
 
-class SecondViewController: UIViewController,FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance {
+class SecondViewController: UIViewController,FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance, GADBannerViewDelegate  {
     
     @IBOutlet weak var calendar: FSCalendar!
+    
+    var bannerView: GADBannerView!
 
     
 
@@ -22,6 +25,15 @@ class SecondViewController: UIViewController,FSCalendarDelegate,FSCalendarDataSo
         // デリゲートの設定
         self.calendar.dataSource = self
         self.calendar.delegate = self
+        
+        // In this case, we instantiate the banner with desired ad size.
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+
+        addBannerViewToView(bannerView)
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
 
     }
 
@@ -118,6 +130,27 @@ class SecondViewController: UIViewController,FSCalendarDelegate,FSCalendarDataSo
         
 //            return arraySet.contains(day) ? UIImage(named: "check") : nil
      }
+    
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+     bannerView.translatesAutoresizingMaskIntoConstraints = false
+     view.addSubview(bannerView)
+     view.addConstraints(
+       [NSLayoutConstraint(item: bannerView,
+                           attribute: .bottom,
+                           relatedBy: .equal,
+                           toItem: bottomLayoutGuide,
+                           attribute: .top,
+                           multiplier: 1,
+                           constant: 0),
+        NSLayoutConstraint(item: bannerView,
+                           attribute: .centerX,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .centerX,
+                           multiplier: 1,
+                           constant: 0)
+       ])
+    }
 
 }
 

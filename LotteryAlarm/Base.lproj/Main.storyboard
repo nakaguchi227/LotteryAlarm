@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -109,14 +109,6 @@
                                 <state key="normal" title="リセット"/>
                                 <connections>
                                     <action selector="resetAction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Np3-4e-aZ4"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ptf-PO-RA3">
-                                <rect key="frame" x="4" y="691" width="84" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="lotteryReset"/>
-                                <connections>
-                                    <action selector="lotteryReset:" destination="9pv-A4-QxB" eventType="touchUpInside" id="K5q-15-asR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="08o-ur-Y7S">
@@ -233,7 +225,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="天気を取得するには 位置情報をONにしてください" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UNj-kj-j0g">
                                 <rect key="frame" x="170" y="534" width="236" height="53"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -338,16 +330,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ih-QH-dGu" customClass="FSCalendar">
-                                <rect key="frame" x="10" y="44" width="404" height="769"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="719"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="O1u-W8-tvY" firstAttribute="bottom" secondItem="0ih-QH-dGu" secondAttribute="bottom" id="5f1-7M-FcY"/>
-                            <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="0ih-QH-dGu" secondAttribute="trailing" id="5nD-Sb-ns1"/>
-                            <constraint firstItem="0ih-QH-dGu" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="10" id="CNd-eR-zGu"/>
-                            <constraint firstItem="0ih-QH-dGu" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" id="gBe-uo-IRB"/>
+                            <constraint firstItem="0ih-QH-dGu" firstAttribute="trailing" secondItem="O1u-W8-tvY" secondAttribute="trailing" id="EA3-GR-yCP"/>
+                            <constraint firstItem="0ih-QH-dGu" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" id="ZN2-eO-hjS"/>
+                            <constraint firstItem="O1u-W8-tvY" firstAttribute="bottom" secondItem="0ih-QH-dGu" secondAttribute="bottom" constant="50" id="g31-vJ-E4A"/>
+                            <constraint firstItem="0ih-QH-dGu" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="rNi-ed-v6r"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>

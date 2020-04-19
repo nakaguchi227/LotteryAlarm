@@ -9,8 +9,9 @@
 import UIKit
 import RealmSwift
 import CoreLocation
+import GoogleMobileAds
 
-class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate {
+class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate, GADBannerViewDelegate {
     
     // UIImage のインスタンスを設定
     let check = UIImage(named:"check")!
@@ -153,6 +154,9 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     //位置情報を取得する
     var locationManager: CLLocationManager!
+    
+    //バナー広告
+    var bannerView: GADBannerView!
     
     
     override func viewDidLoad() {
@@ -438,6 +442,15 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         resetButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.62, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
         
         snoozeButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.78, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
+        
+        
+        // In this case, we instantiate the banner with desired ad size.
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        addBannerViewToView(bannerView)
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
         
         
         // Do any additional setup after loading the view.
@@ -1425,10 +1438,10 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             // 通知内容の設定
             if i == 0{
                 content.title = "起きる時間ですよ"
-                content.body = "アプリを開いて今日のおみくじ結果と天気を確認しよう-\(i)"
+                content.body = "アプリを開いて今日のおみくじ結果と天気を確認しよう"
             }else{
                 content.title = "アラームが設定されています"
-                content.body = "今日のおみくじ結果と天気を確認しよう-\(i)"
+                content.body = "今日のおみくじ結果と天気を確認しよう"
             }
             switch LotteryNo{
             case 1:
@@ -1535,17 +1548,6 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     }
     
     
-    
-    @IBAction func lotteryReset(_ sender: Any) {
-        let realm = try! Realm()
-        let lottery = realm.objects(Lottery.self)
-        try! realm.write {
-            realm.delete(lottery)
-            
-        }
-        
-    }
-    
     func setupLocationManager() {
         locationManager = CLLocationManager()
         guard let locationManager = locationManager else { return }
@@ -1553,8 +1555,26 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         locationManager.requestWhenInUseAuthorization()
     }
     
-    
-    
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+     bannerView.translatesAutoresizingMaskIntoConstraints = false
+     view.addSubview(bannerView)
+     view.addConstraints(
+       [NSLayoutConstraint(item: bannerView,
+                           attribute: .bottom,
+                           relatedBy: .equal,
+                           toItem: bottomLayoutGuide,
+                           attribute: .top,
+                           multiplier: 1,
+                           constant: 0),
+        NSLayoutConstraint(item: bannerView,
+                           attribute: .centerX,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .centerX,
+                           multiplier: 1,
+                           constant: 0)
+       ])
+    }
 
 }
 

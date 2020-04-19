@@ -89,5 +89,9 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-1566808571626806~3082417890</string>
+	<key>CFBundleDisplayName</key>
+	<string>大吉目覚し</string>
 </dict>
 </plist>
