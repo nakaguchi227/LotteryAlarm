@@ -30,7 +30,7 @@ class SecondViewController: UIViewController,FSCalendarDelegate,FSCalendarDataSo
         bannerView = GADBannerView(adSize: kGADAdSizeBanner)
 
         addBannerViewToView(bannerView)
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-1566808571626806/1769336227"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         bannerView.delegate = self
