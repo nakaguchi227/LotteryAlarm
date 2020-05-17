@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "BFB1A0D8-C3C5-4FB0-8428-A2FDF6EB145C"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E26C55E8-F7B6-4030-A5BC-FD9B2DA6C223"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LotteryAlarm/SnoozeSetViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E26C55E8-F7B6-4030-A5BC-FD9B2DA6C223 - cdcf300b83d1370c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LotteryAlarm.SnoozeSetViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; LotteryAlarm.SnoozeSetViewController"
+                  moduleName = "LotteryAlarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nakaguchishouta/Desktop/nakaguchi/alarmClockApp/LotteryAlarm/LotteryAlarm/SnoozeSetViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "306">
+               </Location>
+               <Location
+                  uuid = "E26C55E8-F7B6-4030-A5BC-FD9B2DA6C223 - 93b5127d821f4ed2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LotteryAlarm.SnoozeSetViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;LotteryAlarm.SnoozeSetViewController&gt;"
+                  moduleName = "LotteryAlarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nakaguchishouta/Desktop/nakaguchi/alarmClockApp/LotteryAlarm/LotteryAlarm/SnoozeSetViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "247">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
