@@ -128,6 +128,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="※タイマーが完了すると日替わりおみくじが表示されます" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AB5-1A-s7P">
+                                <rect key="frame" x="48" y="729" width="288" height="14"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
@@ -135,6 +142,7 @@
                     <navigationItem key="navigationItem" title="アラーム設定" id="KpT-CI-OfI"/>
                     <connections>
                         <outlet property="allCheckButton" destination="77K-OV-K0I" id="eJV-0f-q4U"/>
+                        <outlet property="caution" destination="AB5-1A-s7P" id="7Wv-0R-kKA"/>
                         <outlet property="countTime" destination="AcF-C3-Vew" id="sAa-Uj-WWy"/>
                         <outlet property="friCheckButton" destination="Hqg-Ak-ulF" id="8YX-ht-e7X"/>
                         <outlet property="monCheckButton" destination="9qf-WJ-9uN" id="wR8-D9-4aE"/>

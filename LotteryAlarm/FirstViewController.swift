@@ -134,6 +134,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     }
     
     @IBOutlet weak var countTime: UILabel!
+    @IBOutlet weak var caution: UILabel!
     
     var alarmHour:Int = 1
     var alarmMin:Int = 1
@@ -339,6 +340,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         onlyLabel.textColor = UIColor.gray
         self.view.addSubview(onlyLabel)
         
+        caution.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.725, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.1)
         
         countTime.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.7, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.1)
         if setTime == nil{
@@ -441,7 +443,7 @@ class FirstViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
         resetButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.62, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
         
-        snoozeButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.78, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
+        snoozeButton.frame = CGRect(x: myBoundSize.width * 0.05, y: myBoundSize.height * 0.8, width: myBoundSize.width * 0.9, height: myBoundSize.height * 0.03)
         
         
         // In this case, we instantiate the banner with desired ad size.
